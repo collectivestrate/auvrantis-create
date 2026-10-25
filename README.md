@@ -26,6 +26,7 @@ Open [http://localhost:3101](http://localhost:3101). Run checks with `npm test` 
 - Export the website as a standalone HTML file, or export/import an editable `.json` backup capped at 1 MB. Import validates a strict allowlisted schema; no HTML or executable code is accepted.
 - User-initiated PNG share image and launch-copy actions. They describe a draft and do not claim that it is live or include invented customer proof.
 - Optional Create→Check handoff through `NEXT_PUBLIC_AUVRANTIS_CHECK_URL`. It opens the Check dashboard with the public URL the user entered. If the Check URL is not configured, the action reports that honestly.
+- Preview-first AI Site Planner: describe a business in plain language, review a bounded structured plan (pages, sections, colors, missing information, and warnings), then explicitly apply it as an editable draft. The model never writes arbitrary application code and Apply is undoable.
 - Launch Loop foundation: onboarding now previews a five-page blueprint and the project model carries a bounded brief, brand kit, pages, and portable handoff contract.
 - Browser-local autosave is labeled on-screen. Product pages and the editor include **By Auvrantis Group** attribution. Customer websites have no Auvrantis watermark.
 
@@ -38,6 +39,6 @@ Open [http://localhost:3101](http://localhost:3101). Run checks with `npm test` 
 - Auvrantis Create hosting, account sign-in, cloud sync, paid entitlement, custom domains, uploads, and subscription checkout are not connected. The displayed $15.99/month is planned; no payment is collected. Auvrantis Check has a separate planned $15.99/month subscription.
 - Cloud sync remains the next adapter for Launch Loop records; the current foundation is local-first and exportable.
 - An optional gallery image is a remote HTTP(S) reference. It is not uploaded, copied into the export, or optimized.
-- No AI provider or API key is used. No credential is needed to run this local app.
+- The AI planner is optional. Without `OPENAI_API_KEY`, the editor remains fully usable and the planner reports that AI is unavailable. To enable it in a deployment, configure the server-only `OPENAI_API_KEY` and optional `AUVRANTIS_AI_MODEL` environment variables in Vercel; never expose the key as a `NEXT_PUBLIC_` variable. Prompts and provider responses are bounded, schema-validated, and rejected on unsafe or malformed output.
 
 See `/guide` for the customer-facing privacy and methodology explanation.
