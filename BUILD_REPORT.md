@@ -1,29 +1,29 @@
-# Auvrantis Create — first build report
+# Auvrantis Create — build report
 
-**Status:** local-first product build ready for review. No deployment performed by this build task.
+**Status:** local-first Create upgrade ready for review. No deployment was performed by this worker.
 
-## Delivered
+## Delivered in this upgrade
 
-- Next.js App Router app at `/` and interactive editor at `/studio`.
-- Six hand-built templates, questionnaire, responsive previews, structured section edits, browser-local autosave and restore, undo/redo, and downloadable HTML export.
-- Product footer attribution on marketing, editor, setup, and not-found screens. Customer-site preview and export do not add Auvrantis branding.
-- Safe serialization checks cover escaped text, URL protocols, optional contact email, product branding, allowlisted template classes, one in-order hero, and hidden-section behavior.
-- Stored drafts are schema-checked and canonicalized before restore; malformed drafts recover to an editable starter. Failed local saves have an explicit backup warning. Switching templates preserves the owner's copy and section order.
-- Questionnaire tone choices produce deterministic copy variations. Preview and export CTA foreground colors are chosen for contrast against the selected accent.
-- Branded SVG app icon and custom not-found screen with home/editor links.
+- Named project library with create, open, rename, duplicate, and confirm-before-delete actions. The previous v1 local draft migrates without content changes; the old storage key remains intact.
+- Portable JSON backup and import with strict schema validation, an application size limit of 1 MB, and no HTML or executable fields.
+- Section add, duplicate, delete, visibility, reorder, stable IDs, undo/redo, and responsive preview.
+- Editable page title and description, contact email, palette, and section content. Readiness checks show evidence/counts and focus the related editor field or section.
+- User-initiated website export, PNG first-look card, launch-copy action, and configured-only Create→Check handoff for a public hosted URL.
+- Six industry-specific deterministic starter profiles and tone variation. No AI copy generation, invented quotes, unsupported credentials, or fake publishing claim.
+- `/guide` privacy and methodology page, clear separate product pricing (Create and Check each planned at $15.99/month), and repeated By Auvrantis Group product attribution.
+- A typed cloud repository boundary exists, but cloud/account/publishing integration remains unavailable pending the owner's verified backend contract and migration process.
 
 ## Verification
 
-- `npm test` — passed, 13 tests.
-- `npm run build` — passed with Next.js 16.4.3.
-- `npm view next version` — returned 16.4.3 during setup.
-- UI preview and cross-device QA are being coordinated by the parent agent separately.
+- `npm test` — passed, 21 tests across 3 files (serialization safety, migration, strict backup import, size rejection, section IDs, and readiness evidence).
+- `npm run build` — passed with Next.js 16.4.3; `/`, `/studio`, `/guide`, and the app icon prerender successfully.
+- Desktop/mobile browser QA and deployment are coordinated by the parent agent.
 
-## Limitations before paid launch
+## Remaining release gaps
 
-- Browser-local `localStorage` is the only draft persistence. There is no account, cross-device sync, server-side backup, or project ownership model.
-- Subscription checkout is not connected. The displayed $15.99/month price is planned; no payment is collected.
-- HTML export is not publishing or hosting. Production hosting, custom domains, uploads, and hosted customer pages are not connected.
-- The app uses deterministic manual templates, not AI generation. It has no AI provider credentials or AI actions.
-- Gallery image URLs are remote references. Contact is a `mailto:` link only; no form submission service exists.
-- The dependency install reported 3 advisories (1 moderate, 2 critical); review and resolve them before a paid production launch.
+- Projects remain in browser `localStorage`; there is no account ownership, cloud sync, or server backup. A repository contract is not a live service.
+- Website export creates a file and does not host or publish it. Custom domains, image uploads, and hosted customer pages remain unconfigured.
+- Paid subscriptions and checkout are not connected. `$15.99/month` is planned separately for Create and Check; no payment is collected by this app.
+- The readiness checklist evaluates local draft structure only. It does not test a deployed page or measure performance, legal compliance, accessibility conformance, search ranking, or conversion.
+- Contact is a `mailto:` link only; no form submission service exists.
+- Gallery images remain remote HTTP(S) references.

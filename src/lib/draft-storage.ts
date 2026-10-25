@@ -1,6 +1,6 @@
 import { createDraft, templates, type Draft } from './templates';
 
-const sectionTypes = new Set(['hero', 'services', 'about', 'gallery', 'faq', 'contact']);
+const sectionTypes = new Set(['hero', 'services', 'about', 'gallery', 'faq', 'contact', 'testimonials']);
 const colorPattern = /^#[\da-f]{6}$/i;
 
 function isRecord(value: unknown): value is Record<string, unknown> {

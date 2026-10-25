@@ -1,8 +1,8 @@
 # Auvrantis Create
 
-**Website Builder** · planned hosting subscription: **$15.99/month**
+**Website Builder** · planned hosting subscription: **$15.99/month**. Auvrantis Check is a separate planned **$15.99/month** product; both subscriptions would total $31.98/month before applicable taxes.
 
-Auvrantis Create is a guided website starter and manual section editor. The six hand-built templates are deterministic layouts; the app does not generate text with AI. It is an early local-first build, not a hosted customer website service.
+Auvrantis Create is a local-first website builder with six hand-built designs, a named project library, a structured editor, safe JSON backups, and a self-contained HTML export. Starter layouts and text are deterministic, not AI-generated.
 
 ## Run locally
 
@@ -13,35 +13,29 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3101](http://localhost:3101). Run the checks with:
+Open [http://localhost:3101](http://localhost:3101). Run checks with `npm test` and `npm run build`. `npm start` serves the production build on port 3101.
 
-```sh
-npm test
-npm run build
-```
+## Working features
 
-`npm start` serves a production build on port 3101.
+- Six visibly distinct template presets and an industry-aware questionnaire with deterministic tone variations.
+- Project dashboard to create, open, rename, duplicate, and explicitly confirm deletion of local projects.
+- Existing `auvrantis-create:draft:v1` browser drafts migrate losslessly into the project library. Malformed project data is rejected with a recoverable fresh library; prior v1 data is left in browser storage.
+- Structured section editing for title, copy, visibility, order, colors, contact email, and page metadata. Add, duplicate, and delete section instances with unique IDs; at least one section must remain.
+- Undo/redo buttons and keyboard shortcuts (`⌘/Ctrl+Z`, `⌘/Ctrl+Shift+Z`).
+- Desktop and mobile previews, plus a readiness checklist with visible-section counts, evidence, and focus actions.
+- Export the website as a standalone HTML file, or export/import an editable `.json` backup capped at 1 MB. Import validates a strict allowlisted schema; no HTML or executable code is accepted.
+- User-initiated PNG share image and launch-copy actions. They describe a draft and do not claim that it is live or include invented customer proof.
+- Optional Create→Check handoff through `NEXT_PUBLIC_AUVRANTIS_CHECK_URL`. It opens the Check dashboard with the public URL the user entered. If the Check URL is not configured, the action reports that honestly.
+- Browser-local autosave is labeled on-screen. Product pages and the editor include **By Auvrantis Group** attribution. Customer websites have no Auvrantis watermark.
 
-## What works
+## Privacy and technical limits
 
-- Marketing page with a clear product and planned subscription price.
-- Six visually distinct starting designs and a short business questionnaire.
-- Tone selection shapes deterministic starter copy; it does not call an AI service.
-- Manual editing for section headings, copy, visibility, order, palette, and an optional gallery image URL.
-- Desktop and phone previews, undo/redo buttons, and keyboard shortcuts (`⌘/Ctrl+Z`, `⌘/Ctrl+Shift+Z`). Text fields keep their normal native undo behavior.
-- Changing a design preserves edited copy and section order.
-- Automatic browser-local draft saving and restoration for the same browser profile and site origin.
-- Restored draft data is checked against the app schema; malformed data opens a fresh starter instead of crashing the editor. Storage errors are shown with a reminder to export a backup.
-- Download of a self-contained HTML page. Customer text is escaped, palette values are restricted to hex colors, template names are allowlisted, image URLs must use HTTP(S) or a root-relative path, and an email link is included only when the owner supplied a valid address.
+- Projects use this browser's `localStorage` only. They are not uploaded, synced to an account, or backed up on another device. Clearing browser data can remove them. Use JSON backup to keep a portable copy. Avoid entering sensitive information.
+- HTML export escapes owner-entered text, validates colors and email, and rejects unsafe image URL schemes. It creates a file for the owner to host elsewhere; it does not publish or host a website.
+- There is no contact form or message-delivery service. Contact links use `mailto:` when a valid email was supplied.
+- The readiness checklist inspects the structured local draft only. It is not a hosted-site check, legal/compliance assessment, accessibility conformance audit, performance measurement, ranking predictor, or sales forecast.
+- Auvrantis Create hosting, account sign-in, cloud sync, paid entitlement, custom domains, uploads, and subscription checkout are not connected. The displayed $15.99/month is planned; no payment is collected. Auvrantis Check has a separate planned $15.99/month subscription.
+- An optional gallery image is a remote HTTP(S) reference. It is not uploaded, copied into the export, or optimized.
+- No AI provider or API key is used. No credential is needed to run this local app.
 
-## Current limits
-
-- **Draft storage is this browser only.** The draft uses `localStorage`; it is not uploaded, shared, backed up, or available on another device. Clearing browser data can remove it. Avoid entering sensitive data.
-- The template copy is starter text, not AI output. Review and edit it before use. The app does not invent testimonials or business credentials.
-- Gallery images are referenced by URL. Images are not uploaded, copied into the exported file, or optimized; the visitor's browser loads the remote image.
-- An optional contact email creates a `mailto:` link. There is no contact form or message-delivery service, so the app does not report fake form success.
-- HTML export creates a file for the owner to use elsewhere; it does not publish or host a site.
-- There is no account system, cloud storage, subscription checkout, paid entitlement, production hosting, domain setup, or customer-site publishing. The $15.99/month subscription checkout opens at launch.
-- No AI provider or API key is used in this app. No server credentials are needed for this local build.
-
-Every Auvrantis Create product screen includes the “By Auvrantis Group” attribution. Customer websites do not get an Auvrantis watermark.
+See `/guide` for the customer-facing privacy and methodology explanation.
