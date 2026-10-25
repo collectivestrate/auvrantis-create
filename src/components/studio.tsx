@@ -53,6 +53,7 @@ export default function Studio() {
       try {
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...draft, updatedAt: new Date().toISOString() }));
         setSaveState('saved');
+        setError((current) => current === 'Could not save on this device; export a backup.' ? '' : current);
       } catch { setSaveState('error'); setError('Could not save on this device; export a backup.'); }
     }, 350);
     return () => window.clearTimeout(timer);
