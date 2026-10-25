@@ -7,11 +7,14 @@
 - Next.js App Router app at `/` and interactive editor at `/studio`.
 - Six hand-built templates, questionnaire, responsive previews, structured section edits, browser-local autosave and restore, undo/redo, and downloadable HTML export.
 - Product footer attribution on marketing, editor, setup, and not-found screens. Customer-site preview and export do not add Auvrantis branding.
-- Safe serialization checks cover escaped text, URL protocols, optional contact email, product branding, and allowlisted template classes.
+- Safe serialization checks cover escaped text, URL protocols, optional contact email, product branding, allowlisted template classes, one in-order hero, and hidden-section behavior.
+- Stored drafts are schema-checked and canonicalized before restore; malformed drafts recover to an editable starter. Failed local saves have an explicit backup warning. Switching templates preserves the owner's copy and section order.
+- Questionnaire tone choices produce deterministic copy variations. Preview and export CTA foreground colors are chosen for contrast against the selected accent.
+- Branded SVG app icon and custom not-found screen with home/editor links.
 
 ## Verification
 
-- `npm test` — passed, 6 tests.
+- `npm test` — passed, 13 tests.
 - `npm run build` — passed with Next.js 16.4.3.
 - `npm view next version` — returned 16.4.3 during setup.
 - UI preview and cross-device QA are being coordinated by the parent agent separately.

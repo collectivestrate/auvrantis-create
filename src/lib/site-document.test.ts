@@ -37,7 +37,11 @@ describe('serializeSite', () => {
     const withoutContact = serializeSite(site);
     expect(withoutContact).not.toContain('mailto:');
     expect(withoutContact).not.toContain('href="#contact"');
-    const withContact = serializeSite({ ...site, contactEmail: 'hello@example.com' });
+    const withContact = serializeSite({
+      ...site,
+      contactEmail: 'hello@example.com',
+      sections: [...site.sections, { id: 'contact', type: 'contact', visible: true, title: 'Contact us', body: 'Say hello.' }],
+    });
     expect(withContact).toContain('href="mailto:hello@example.com"');
     expect(() => serializeSite({ ...site, contactEmail: 'javascript:alert(1)' })).toThrow(/invalid contact email/i);
   });
@@ -50,5 +54,25 @@ describe('serializeSite', () => {
   it('uses a known template class without allowing markup in layout names', () => {
     expect(serializeSite({ ...site, templateId: 'fieldwork' })).toContain('<body class="template-fieldwork">');
     expect(serializeSite({ ...site, templateId: 'atelier onload=alert(1)' })).toContain('<body class="template-atelier">');
+  });
+
+  it('renders the hero once at its position in the section order', () => {
+    const orderedSite = {
+      ...site,
+      sections: [
+        { id: 'about', type: 'about', visible: true, title: 'About comes first', body: 'First content.' },
+        { ...site.sections[0], title: 'Hero stays in order' },
+        { id: 'services', type: 'services', visible: true, title: 'Services come last', body: 'Last content.' },
+      ],
+    };
+    const html = serializeSite(orderedSite);
+    expect(html.match(/Hero stays in order/g)).toHaveLength(1);
+    expect(html.indexOf('About comes first')).toBeLessThan(html.indexOf('Hero stays in order'));
+    expect(html.indexOf('Hero stays in order')).toBeLessThan(html.indexOf('Services come last'));
+  });
+
+  it('does not render the hero content when the hero section is hidden', () => {
+    const html = serializeSite({ ...site, sections: [{ ...site.sections[0], visible: false }] });
+    expect(html).not.toContain('Make &lt;strong&gt;good&lt;/strong&gt; work');
   });
 });

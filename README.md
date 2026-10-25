@@ -26,9 +26,12 @@ npm run build
 
 - Marketing page with a clear product and planned subscription price.
 - Six visually distinct starting designs and a short business questionnaire.
+- Tone selection shapes deterministic starter copy; it does not call an AI service.
 - Manual editing for section headings, copy, visibility, order, palette, and an optional gallery image URL.
 - Desktop and phone previews, undo/redo buttons, and keyboard shortcuts (`⌘/Ctrl+Z`, `⌘/Ctrl+Shift+Z`). Text fields keep their normal native undo behavior.
+- Changing a design preserves edited copy and section order.
 - Automatic browser-local draft saving and restoration for the same browser profile and site origin.
+- Restored draft data is checked against the app schema; malformed data opens a fresh starter instead of crashing the editor. Storage errors are shown with a reminder to export a backup.
 - Download of a self-contained HTML page. Customer text is escaped, palette values are restricted to hex colors, template names are allowlisted, image URLs must use HTTP(S) or a root-relative path, and an email link is included only when the owner supplied a valid address.
 
 ## Current limits

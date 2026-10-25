@@ -47,6 +47,14 @@ export function createDraft(templateId = 'atelier', name = 'Your studio'): Draft
 export function personalizeDraft(draft: Draft, answers: Draft['business']): Draft {
   const name = answers.name.trim() || 'Your studio';
   const service = answers.service.trim() || 'Thoughtful work, made with care.';
+  const audience = answers.audience.trim().toLowerCase();
+  const voice = answers.tone === 'Playful and bright'
+    ? `${service} — good things start here${audience ? `, for ${audience}` : ''}.`
+    : answers.tone === 'Calm and considered'
+      ? `${service}. Thoughtfully made${audience ? ` for ${audience}` : ''}.`
+      : answers.tone === 'Clear and expert'
+        ? `${service}. Focused work${audience ? ` for ${audience}` : ''}.`
+        : `${service}${audience ? `, for ${audience}` : ''}.`;
   return {
     ...draft,
     business: answers,
@@ -56,8 +64,23 @@ export function personalizeDraft(draft: Draft, answers: Draft['business']): Draf
       description: `${service} ${answers.location ? `in ${answers.location}.` : ''}`.trim(),
       contactEmail: answers.email.trim(),
       sections: draft.site.sections.map((section) => section.id === 'hero'
-        ? { ...section, body: `${service}${answers.audience ? `, for ${answers.audience.toLowerCase()}.` : '.'}` }
+        ? { ...section, body: voice }
         : section),
+    },
+  };
+}
+
+export function switchDraftTemplate(draft: Draft, templateId: string): Draft {
+  const template = templates.find((item) => item.id === templateId);
+  if (!template) return draft;
+  return {
+    ...draft,
+    templateId: template.id,
+    updatedAt: new Date().toISOString(),
+    site: {
+      ...draft.site,
+      templateId: template.id,
+      theme: { ...draft.site.theme, accent: template.accent },
     },
   };
 }
