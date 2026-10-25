@@ -1,11 +1,14 @@
-export type WorkspaceSettings = { workspaceName: string; density: 'compact' | 'balanced' | 'expressive'; reducedMotion: boolean; shareDefaultDays: 1 | 7 | 30; analytics: boolean };
-const defaults: WorkspaceSettings = { workspaceName: 'Auvrantis Workspace', density: 'balanced', reducedMotion: false, shareDefaultDays: 7, analytics: false };
+export type ThemeMode = 'light' | 'dark';
+export type WorkspaceSettings = { workspaceName: string; density: 'compact' | 'balanced' | 'expressive'; reducedMotion: boolean; shareDefaultDays: 1 | 7 | 30; analytics: boolean; theme: ThemeMode };
+const defaults: WorkspaceSettings = { workspaceName: 'Auvrantis Workspace', density: 'balanced', reducedMotion: false, shareDefaultDays: 7, analytics: false, theme: 'light' };
 
 export function sanitizeWorkspaceSettings(input: unknown): WorkspaceSettings {
   const value = input && typeof input === 'object' ? input as Record<string, unknown> : {};
   const days = value.shareDefaultDays === 1 || value.shareDefaultDays === 30 ? value.shareDefaultDays : 7;
-  return { workspaceName: typeof value.workspaceName === 'string' ? value.workspaceName.trim().slice(0, 120) || defaults.workspaceName : defaults.workspaceName, density: value.density === 'compact' || value.density === 'expressive' ? value.density : 'balanced', reducedMotion: value.reducedMotion === true, shareDefaultDays: days, analytics: value.analytics === true };
+  return { workspaceName: typeof value.workspaceName === 'string' ? value.workspaceName.trim().slice(0, 120) || defaults.workspaceName : defaults.workspaceName, density: value.density === 'compact' || value.density === 'expressive' ? value.density : 'balanced', reducedMotion: value.reducedMotion === true, shareDefaultDays: days, analytics: value.analytics === true, theme: value.theme === 'dark' ? 'dark' : 'light' };
 }
+
+export const themeClass = (theme: unknown) => theme === 'dark' ? 'theme-dark' : 'theme-light';
 
 export function exportSettingsBundle(settings: unknown, projects: unknown[]): string {
   const safe = sanitizeWorkspaceSettings(settings);

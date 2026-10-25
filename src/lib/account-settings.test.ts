@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest';
-import { exportSettingsBundle, sanitizeWorkspaceSettings } from './account-settings';
+import { exportSettingsBundle, sanitizeWorkspaceSettings, themeClass } from './account-settings';
 
 describe('account settings', () => {
   it('bounds and normalizes workspace settings', () => {
     const value = sanitizeWorkspaceSettings({ workspaceName: '  Auvrantis  ', density: 'expressive', reducedMotion: true, shareDefaultDays: 30 });
-    expect(value).toEqual({ workspaceName: 'Auvrantis', density: 'expressive', reducedMotion: true, shareDefaultDays: 30, analytics: false });
+    expect(value).toEqual({ workspaceName: 'Auvrantis', density: 'expressive', reducedMotion: true, shareDefaultDays: 30, analytics: false, theme: 'light' });
   });
 
   it('redacts private project fields from an export bundle', () => {
@@ -13,4 +13,6 @@ describe('account settings', () => {
     expect(bundle.projects[0]).toEqual({ id: 'p1', name: 'Site' });
     expect(JSON.stringify(bundle)).not.toContain('secret');
   });
+
+  it('supports only the black and white theme modes', () => { expect(themeClass('dark')).toBe('theme-dark'); expect(themeClass('light')).toBe('theme-light'); expect(themeClass('neon')).toBe('theme-light'); });
 });
