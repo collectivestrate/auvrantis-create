@@ -10,4 +10,9 @@ describe('Create Check handoff', () => {
     expect(handoff.siteUrl).toBe('https://example.com/');
     expect(handoff.findings).toEqual([]);
   });
+
+  it('removes credentials before serializing a site URL', () => {
+    const project = createLaunchProject({ name: 'Acme' }, 'atelier');
+    expect(JSON.parse(createCheckHandoff(project, 'https://user:pass@example.com/path')).siteUrl).toBe('https://example.com/path');
+  });
 });
