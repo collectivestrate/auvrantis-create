@@ -23,6 +23,7 @@ export default function CloudPanel({ draft, onLoad }: { draft: Draft; onLoad: (d
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [message, setMessage] = useState('');
   const [busy, setBusy] = useState(false);
+  const [conflict, setConflict] = useState<{ id: string; local: Draft } | null>(null);
   const refresh = useCallback(async () => {
     try {
       const s = await request('session'); setSession(s);
@@ -50,7 +51,8 @@ export default function CloudPanel({ draft, onLoad }: { draft: Draft; onLoad: (d
       if (selected) {
         const prior = projects.find((p) => p.id === selected);
         if (!prior) throw new Error('Choose a project first.');
-        const p = await request(`projects/${selected}`, 'PUT', { draft, expectedUpdatedAt: prior.updatedAt });
+        let p;
+        try { p = await request(`projects/${selected}`, 'PUT', { draft, expectedUpdatedAt: prior.updatedAt }); } catch (error) { if (error instanceof Error && error.message.toLowerCase().includes('conflict')) setConflict({ id: selected, local: draft }); throw error; }
         setSavedAt(p.project.updated_at || p.project.updatedAt || new Date().toISOString());
         setMessage('Saved to your account.');
       } else {
@@ -85,6 +87,7 @@ export default function CloudPanel({ draft, onLoad }: { draft: Draft; onLoad: (d
       <div className={styles.account}><span>{session.email}</span><button type="button" className={styles.textButton} disabled={busy} onClick={() => void act(async () => { await request('logout', 'POST', {}); setSelected(''); await refresh(); setMessage('Signed out on this device.'); })}>Sign out</button></div>
       <label className={styles.field}>Project<select value={selected} onChange={(e) => setSelected(e.target.value)}><option value="">Create a new cloud project</option>{projects.map((p) => <option key={p.id} value={p.id}>{p.title}{p.publication?.active ? ' · published' : ''}</option>)}</select></label>
       <div className={styles.actions}><button type="button" className={styles.secondary} disabled={busy || !selected} onClick={() => void load()}>Load selected</button><button type="button" className={styles.primary} disabled={busy} onClick={() => void save()}>{selected ? 'Save to cloud' : 'Create cloud project'}</button></div>
+      {conflict && <div className={styles.notice} role="alert"><strong>Cloud version changed.</strong><span>Your local draft was not overwritten.</span><div className={styles.actions}><button type="button" className={styles.secondary} onClick={() => { setConflict(null); void load(); }}>Keep cloud</button><button type="button" className={styles.primary} onClick={() => { setConflict(null); void request(`projects/${conflict.id}`).then((p) => request(`projects/${conflict.id}`, 'PUT', { draft: conflict.local, expectedUpdatedAt: p.project.updated_at })).then(() => refresh()).catch((e) => setMessage(e instanceof Error ? e.message : 'Could not keep this draft.')); }}>Keep device</button></div></div>}
       {chosen?.publication?.active && <div className={styles.published}><a href={`/p/${chosen.publication.slug}`} target="_blank" rel="noreferrer">Open published page</a><button type="button" className={styles.textButton} disabled={busy} onClick={() => void unpublish()}>Unpublish</button></div>}
       {!chosen?.publication?.active && <button type="button" className={styles.textButton} disabled={busy || !selected} onClick={() => void publish()}>Publish saved project</button>}
       {savedAt && <small>Last saved {new Date(savedAt).toLocaleString()}</small>}
