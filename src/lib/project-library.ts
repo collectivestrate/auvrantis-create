@@ -30,8 +30,8 @@ function validDraftShape(draft: unknown): draft is Draft {
 }
 function validProject(value: unknown): value is LocalProject {
   if (!record(value) || !exactKeys(value, ['id', 'name', 'createdAt', 'updatedAt', 'draft'])) return false;
-  return typeof value.id === 'string' && !!value.id && typeof value.name === 'string' && !!value.name.trim() &&
-    typeof value.createdAt === 'string' && typeof value.updatedAt === 'string' && validDraftShape(value.draft);
+  return typeof value.id === 'string' && /^[a-zA-Z0-9_-]{1,80}$/.test(value.id) && typeof value.name === 'string' && !!value.name.trim() && value.name.length <= 120 &&
+    typeof value.createdAt === 'string' && value.createdAt.length <= 64 && Number.isFinite(Date.parse(value.createdAt)) && typeof value.updatedAt === 'string' && value.updatedAt.length <= 64 && Number.isFinite(Date.parse(value.updatedAt)) && validDraftShape(value.draft);
 }
 function canonicalProject(project: LocalProject): LocalProject {
   const restored = restoreDraft(JSON.stringify(project.draft));
@@ -43,11 +43,11 @@ export function restoreProjectLibrary(raw: string | null, legacyRaw: string | nu
   if (raw) {
     try {
       const parsed: unknown = JSON.parse(raw);
-      if (record(parsed) && exactKeys(parsed, ['schemaVersion', 'projects']) && parsed.schemaVersion === 2 && Array.isArray(parsed.projects) && parsed.projects.every(validProject)) {
+      if (record(parsed) && exactKeys(parsed, ['schemaVersion', 'projects']) && parsed.schemaVersion === 2 && Array.isArray(parsed.projects) && parsed.projects.length <= 100 && parsed.projects.every(validProject) && new Set(parsed.projects.map(p => p.id)).size === parsed.projects.length) {
         return { projects: parsed.projects.map(canonicalProject), migratedLegacy: false, recovered: false };
       }
-      return { projects: [], migratedLegacy: false, recovered: true };
-    } catch { return { projects: [], migratedLegacy: false, recovered: true }; }
+      return { ...restoreProjectLibrary(null, legacyRaw), recovered: true };
+    } catch { return { ...restoreProjectLibrary(null, legacyRaw), recovered: true }; }
   }
   if (legacyRaw) {
     const restored = restoreDraft(legacyRaw);

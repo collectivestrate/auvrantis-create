@@ -1,3 +1,5 @@
+import type { Metadata } from 'next';
+export const metadata: Metadata = { alternates: { canonical: 'https://auvrantis-create.vercel.app/' } };
 import Link from 'next/link';
 import { templates } from '@/lib/templates';
 

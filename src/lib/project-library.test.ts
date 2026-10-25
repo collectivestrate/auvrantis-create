@@ -89,4 +89,36 @@ describe('readiness evidence', () => {
     expect(result.checks.find((check) => check.id === 'title')?.focus).toBe('metadata-title');
     expect(result.checks.find((check) => check.id === 'title')?.evidence).toMatch(/empty/i);
   });
+
+  it('flags duplicate visible hero sections instead of treating the first as sufficient', () => {
+    const draft = createDraft();
+    draft.site.sections.push({ ...draft.site.sections[0], id: 'hero-second', title: 'Another headline' });
+    const hero = assessReadiness(draft).checks.find((check) => check.id === 'hero');
+    expect(hero?.ready).toBe(false);
+    expect(hero?.evidence).toMatch(/2 visible introduction sections/i);
+  });
+});
+
+describe('review regressions', () => {
+  it('recovers a valid legacy draft when the newer library is damaged', () => {
+    const legacy = createDraft('fieldwork', 'Keep this work');
+    const result = restoreProjectLibrary('{broken', JSON.stringify(legacy));
+    expect(result.projects).toHaveLength(1);
+    expect(result.projects[0].draft.business.name).toBe('Keep this work');
+    expect(result.migratedLegacy).toBe(true);
+  });
+  it('rejects executable image URLs in project imports', () => {
+    const project = asProject();
+    const data = JSON.parse(serializeProjectBackup(project));
+    data.draft.site.sections[0].imageUrl = 'javascript:alert(1)';
+    expect(() => parseProjectBackup(JSON.stringify(data))).toThrow();
+  });
+  it('rejects invalid dates and oversized section identifiers', () => {
+    const data = JSON.parse(serializeProjectBackup(asProject()));
+    data.draft.updatedAt = 'not-a-date';
+    expect(() => parseProjectBackup(JSON.stringify(data))).toThrow();
+    data.draft.updatedAt = new Date().toISOString();
+    data.draft.site.sections[0].id = 'x'.repeat(200);
+    expect(() => parseProjectBackup(JSON.stringify(data))).toThrow();
+  });
 });

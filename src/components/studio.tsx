@@ -1,6 +1,8 @@
 'use client';
 
 import Link from 'next/link';
+import CloudPanel from './cloud-panel';
+import { trackCreateAction } from './product-analytics';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createDraft, personalizeDraft, switchDraftTemplate, templates, type Draft } from '@/lib/templates';
 import { contrastTextColor, serializeSite, type SiteSection } from '@/lib/site-document';
@@ -13,7 +15,7 @@ const LEGACY_STORAGE_KEY = 'auvrantis-create:draft:v1';
 const sectionNames: Record<string, string> = { hero: 'Hero', services: 'Services', about: 'About', gallery: 'Work & images', faq: 'FAQs', contact: 'Contact', testimonials: 'Customer stories' };
 
 function Footer({ compact = false }: { compact?: boolean }) {
-  return <footer className="studio-footer"><strong>By Auvrantis Group</strong><span>{compact ? 'AUVRANTIS CREATE · WEBSITE BUILDER' : 'Auvrantis Create · Website Builder'}</span><span>Draft storage: this browser only</span></footer>;
+  return <footer className="studio-footer"><strong>By Auvrantis Group</strong><span>{compact ? 'AUVRANTIS CREATE · WEBSITE BUILDER' : 'Auvrantis Create · Website Builder'}</span><span>Draft storage: this browser only</span><Link href="/privacy">Privacy</Link></footer>;
 }
 
 function Wordmark() {
@@ -108,12 +110,13 @@ export default function Studio() {
 
   const beginQuestionnaire = () => { const fresh = createDraft(selectedTemplate); setDraft(fresh); setActiveProjectId(null); setAnswers({ ...fresh.business, name: '', service: '', audience: '', location: '', email: '' }); setError(''); setMode('questions'); };
   const beginTemplateChange = () => { setSelectedTemplate(draft.templateId); setIsChangingTemplate(true); setMode('design'); setError(''); };
-  const applyTemplateChange = () => { commit(switchDraftTemplate(draft, selectedTemplate)); setIsChangingTemplate(false); setMode('edit'); setError(''); };
+  const applyTemplateChange = () => { trackCreateAction('template_changed'); commit(switchDraftTemplate(draft, selectedTemplate)); setIsChangingTemplate(false); setMode('edit'); setError(''); };
   const finishQuestionnaire = () => {
     if (!answers.name.trim()) { setError('Add your business or project name to continue.'); return; }
     if (answers.email.trim() && !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(answers.email.trim())) { setError('Enter a valid email address, or leave the field blank.'); return; }
     const next = personalizeDraft(createDraft(selectedTemplate, answers.name), answers);
     const project = createProject(next);
+    trackCreateAction('project_created');
     setDraft(next); setProjects((items) => [project, ...items]); setActiveProjectId(project.id); setSelectedSection('hero'); setHistory([]); setFuture([]); setMode('edit'); setError('');
   };
   const openProject = (project: LocalProject) => { setDraft(project.draft); setActiveProjectId(project.id); setSelectedTemplate(project.draft.templateId); setAnswers(project.draft.business); setHistory([]); setFuture([]); setSelectedSection(project.draft.site.sections[0]?.id ?? ''); setMode('edit'); setError(''); };
@@ -121,7 +124,7 @@ export default function Studio() {
   const duplicateProject = (project: LocalProject) => { const copy = cloneProject(project); setProjects((items) => [copy, ...items]); setLibraryNotice(`“${copy.name}” was duplicated.`); };
   const removeProject = (project: LocalProject) => { if (!window.confirm(`Delete “${project.name}” from this browser? This cannot be undone.`)) return; setProjects((items) => items.filter((item) => item.id !== project.id)); if (activeProjectId === project.id) { setActiveProjectId(null); setMode('library'); } };
   const download = (name: string, content: string, type: string) => { const blob = new Blob([content], { type }); const url = URL.createObjectURL(blob); const anchor = document.createElement('a'); anchor.href = url; anchor.download = name; anchor.click(); URL.revokeObjectURL(url); };
-  const exportBackup = () => { if (!activeProjectId) return; const project = projects.find((item) => item.id === activeProjectId); if (!project) return; download(`${project.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'website'}-backup.json`, serializeProjectBackup({ ...project, draft }), 'application/json'); };
+  const exportBackup = () => { if (!activeProjectId) return; const project = projects.find((item) => item.id === activeProjectId); if (!project) return; download(`${project.name.toLowerCase().replace(/[^a-z0-9]+/g, '-') || 'website'}-backup.json`, serializeProjectBackup({ ...project, draft }), 'application/json'); trackCreateAction('backup_exported'); };
   const importBackup = async (file?: File) => { if (!file) return; try { if (file.size > 1_000_000) throw new Error('Backup exceeds the 1 MB import limit.'); const parsed = parseProjectBackup(await file.text()); const project = createProject(parsed.draft); project.name = parsed.name; setProjects((items) => [project, ...items]); setLibraryNotice(`“${project.name}” was imported as a new project.`); setError(''); } catch (cause) { setError(cause instanceof Error ? cause.message : 'This backup could not be imported.'); } finally { if (importInput.current) importInput.current.value = ''; } };
   const setAnswer = (key: keyof typeof answers, value: string) => setAnswers((current) => ({ ...current, [key]: value }));
   const updateSection = (id: string, changes: Partial<SiteSection>) => commit({ ...draft, site: { ...draft.site, sections: draft.site.sections.map((section) => section.id === id ? { ...section, ...changes } : section) } });
@@ -144,6 +147,7 @@ export default function Studio() {
       anchor.href = url;
       anchor.download = `${(draft.business.name || 'my-website').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'my-website'}.html`;
       anchor.click();
+      trackCreateAction('html_exported');
       URL.revokeObjectURL(url);
       setError('');
     } catch (cause) { setError(cause instanceof Error ? cause.message : 'This page could not be exported.'); }
@@ -225,7 +229,7 @@ export default function Studio() {
         <span className="panel-label">Your starting design</span><button className="template-chip" type="button" onClick={beginTemplateChange}>{selectedTemplateData.stamp} / {selectedTemplateData.name}　↗</button>
         <div className="readiness-card"><div><span className="panel-label">Before you share</span><b>{readiness.readyCount}/{readiness.checks.length} checks ready</b><small>{readiness.visibleSectionCount} visible of {readiness.totalSectionCount} sections</small></div>{readiness.checks.map((check) => <button key={check.id} type="button" className={`readiness-row ${check.ready ? 'ready' : ''}`} onClick={() => focusReadiness(check.focus)}><span>{check.ready ? '✓' : '○'}</span><span><b>{check.label}</b><small>{check.evidence}</small></span><i>Fix ↗</i></button>)}</div>
         <div className="launch-toolkit"><span className="panel-label">Share & improve</span><p>Make a share image or copy launch text. Your website stays a draft until you host it.</p><button className="outline-button" type="button" onClick={exportShareCard}>Download share image</button><button className="outline-button" type="button" onClick={() => void copyLaunchCopy()}>Copy launch copy</button><label className="field-label" htmlFor="hosted-site-url">Your hosted website URL</label><input id="hosted-site-url" type="url" placeholder="https://yourdomain.com" value={launchUrl} onChange={(e) => setLaunchUrl(e.target.value)} /><button className="button small" type="button" onClick={checkUrl} disabled={!checkBase}>Open in Auvrantis Check ↗</button>{!checkBase && <small>Auvrantis Check connection is not configured yet.</small>}</div>
-      </aside>
+      <CloudPanel draft={draft} onLoad={(loaded) => commit(loaded)} /></aside>
       <section className="preview-area" aria-label="Website preview"><div className="preview-toolbar"><span>Live preview <small>· unsaved changes update as you edit</small></span><div className="toggle-group" aria-label="Preview size"><button type="button" className={device === 'desktop' ? 'active' : ''} aria-pressed={device === 'desktop'} onClick={() => setDevice('desktop')}>Desktop</button><button type="button" className={device === 'mobile' ? 'active' : ''} aria-pressed={device === 'mobile'} onClick={() => setDevice('mobile')}>Mobile</button></div></div><SitePreview draft={draft} device={device} onNavigate={() => setMenuOpen((open) => !open)} menuOpen={menuOpen} /></section>
     </div>
     <Footer compact />
