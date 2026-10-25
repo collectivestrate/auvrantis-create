@@ -4,7 +4,7 @@ export type LaunchEvidence = { url: string; rule: string; observed: string; expe
 export type LaunchFinding = { id: string; status: FindingStatus; title: string; evidence: LaunchEvidence };
 export type LaunchPage = { id: string; title: string; path?: string };
 export type LaunchProject = { id: string; name: string; pages: LaunchPage[]; updatedAt: string };
-export type LaunchHandoff = { version: 1; projectId: string; source: 'create' | 'check'; findings: LaunchFinding[] };
+export type LaunchHandoff = { version: 1; projectId: string; source: 'create' | 'check'; findings: LaunchFinding[]; siteUrl?: string };
 
 const MAX = 140 * 1024;
 const statuses = new Set<FindingStatus>(['open', 'acknowledged', 'fixed', 'verified']);
@@ -47,7 +47,7 @@ export function parseHandoff(raw: unknown): LaunchHandoff {
     if (typeof row.status !== 'string' || !statuses.has(row.status as FindingStatus)) throw new Error('invalid status');
     return { id: text(row.id, 120, 'finding id'), status: row.status as FindingStatus, title: text(row.title, 500, 'finding title'), evidence: evidence(row.evidence) };
   });
-  return { version: 1, projectId: text(item.projectId, 120, 'project id'), source: item.source as 'create' | 'check', findings };
+  return { version: 1, projectId: text(item.projectId, 120, 'project id'), source: item.source as 'create' | 'check', findings, ...(typeof item.siteUrl === 'string' ? { siteUrl: text(item.siteUrl, 2048, 'site url') } : {}) };
 }
 
 export const serializeHandoff = (handoff: unknown) => {
