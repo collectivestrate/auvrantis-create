@@ -3,7 +3,7 @@ import { normalizeProject, parseHandoff, serializeHandoff } from './contracts';
 
 describe('Launch Loop contracts', () => {
   it('round-trips a valid handoff with evidence', () => {
-    const handoff = { version: 1, projectId: 'p1', source: 'check', findings: [{ id: 'f1', status: 'open', title: 'Missing title', evidence: { url: 'https://example.com', rule: 'title', observed: '', expected: 'one title', checkedAt: '2026-10-25T00:00:00.000Z', method: 'static-html' } }] };
+    const handoff = { version: 1, projectId: 'p1', source: 'check', findings: [{ id: 'f1', status: 'open', title: 'Missing title', evidence: { url: 'https://example.com', rule: 'title', observed: '', expected: 'one title', checkedAt: '2026-10-25T00:00:00.000Z', method: 'static-html' } }] } as const;
     expect(parseHandoff(serializeHandoff(handoff))).toEqual(handoff);
   });
 

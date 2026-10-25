@@ -9,6 +9,7 @@ import { contrastTextColor, serializeSite, type SiteSection } from '@/lib/site-d
 import { restoreDraft } from '@/lib/draft-storage';
 import { assessReadiness } from '@/lib/readiness';
 import { cloneProject, createProject, createSectionInstance, deleteSection, duplicateSection, parseProjectBackup, restoreProjectLibrary, serializeProjectBackup, serializeProjectLibrary, type LocalProject } from '@/lib/project-library';
+import { createLaunchProject } from '@/lib/launch-loop/create-project';
 
 const STORAGE_KEY = 'auvrantis-create:projects:v2';
 const LEGACY_STORAGE_KEY = 'auvrantis-create:draft:v1';
@@ -182,6 +183,7 @@ export default function Studio() {
     catch (cause) { setError(cause instanceof Error && cause.message.includes('not configured') ? cause.message : 'Enter a complete public website URL starting with https:// or http://.'); }
   };
   const selectedTemplateData = useMemo(() => templates.find((item) => item.id === (mode === 'edit' ? draft.templateId : selectedTemplate)) ?? templates[0], [draft.templateId, mode, selectedTemplate]);
+  const launchBlueprint = useMemo(() => createLaunchProject(answers, selectedTemplate), [answers, selectedTemplate]);
 
   if (!ready) return <main className="wizard-screen"><header className="wizard-nav"><Wordmark /><span className="local-badge"><i /> Draft storage: this browser only</span></header><div className="wizard-main"><p className="kicker">AUVRANTIS CREATE</p><h1>Let’s make<br />something good.</h1><p>Loading your local draft…</p></div><Footer /></main>;
 
@@ -209,6 +211,7 @@ export default function Studio() {
     <header className="wizard-nav"><Wordmark /><span className="local-badge"><i /> Draft storage: this browser only</span></header>
     <div className="wizard-main"><p className="wizard-progress">START HERE　/　02　·　{selectedTemplateData.name}</p><h1>Give it the<br />good details.</h1><p>This helps shape a useful first draft. Every line stays editable. We will never invent credentials, customer reviews, or promises for you.</p>
       <div className="questionnaire"><div><label className="field-label" htmlFor="biz-name">Business or project name *</label><input id="biz-name" autoFocus value={answers.name} onChange={(e) => setAnswer('name', e.target.value)} placeholder="e.g. Northstar Ceramics" /></div><div><label className="field-label" htmlFor="biz-service">What do you do?</label><input id="biz-service" value={answers.service} onChange={(e) => setAnswer('service', e.target.value)} placeholder="e.g. Handmade ceramic tableware" /></div><div><label className="field-label" htmlFor="biz-audience">Who do you help?</label><input id="biz-audience" value={answers.audience} onChange={(e) => setAnswer('audience', e.target.value)} placeholder="e.g. People who love to host" /></div><div><label className="field-label" htmlFor="biz-location">Where are you based?</label><input id="biz-location" value={answers.location} onChange={(e) => setAnswer('location', e.target.value)} placeholder="e.g. Chicago, IL" /></div><div><label className="field-label" htmlFor="biz-email">Contact email (optional)</label><input id="biz-email" type="email" value={answers.email} onChange={(e) => setAnswer('email', e.target.value)} placeholder="hello@example.com" /></div><div><label className="field-label" htmlFor="biz-tone">How should it sound?</label><select id="biz-tone" value={answers.tone} onChange={(e) => setAnswer('tone', e.target.value)}><option>Warm and direct</option><option>Playful and bright</option><option>Calm and considered</option><option>Clear and expert</option></select></div></div>
+      <div className="blueprint-card"><span className="panel-label">Your launch blueprint</span><strong>{launchBlueprint.pages.length} page starter</strong><div>{launchBlueprint.pages.map((page) => <span key={page.id}>{page.title}</span>)}</div><small>We’ll build this structure first. Every page and section stays editable.</small></div>
       {error && <p className="wizard-error" role="alert">{error}</p>}
       <div className="wizard-actions"><button className="button" type="button" onClick={finishQuestionnaire}>Build my first draft <span aria-hidden>↗</span></button><button className="back-link" type="button" onClick={() => setMode('design')}>Back to designs</button></div>
     </div><Footer />

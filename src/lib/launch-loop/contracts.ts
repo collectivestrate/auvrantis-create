@@ -50,7 +50,7 @@ export function parseHandoff(raw: unknown): LaunchHandoff {
   return { version: 1, projectId: text(item.projectId, 120, 'project id'), source: item.source as 'create' | 'check', findings };
 }
 
-export const serializeHandoff = (handoff: LaunchHandoff) => {
+export const serializeHandoff = (handoff: unknown) => {
   const value = JSON.stringify(parseHandoff(handoff));
   if (value.length > MAX) throw new Error('handoff too large');
   return value;
