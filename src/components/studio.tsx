@@ -10,6 +10,8 @@ import { restoreDraft } from '@/lib/draft-storage';
 import { assessReadiness } from '@/lib/readiness';
 import { cloneProject, createProject, createSectionInstance, deleteSection, duplicateSection, parseProjectBackup, restoreProjectLibrary, serializeProjectBackup, serializeProjectLibrary, type LocalProject } from '@/lib/project-library';
 import { createLaunchProject } from '@/lib/launch-loop/create-project';
+import AccountPanel from './account-panel';
+import SettingsPanel from './settings-panel';
 
 const STORAGE_KEY = 'auvrantis-create:projects:v2';
 const LEGACY_STORAGE_KEY = 'auvrantis-create:draft:v1';
@@ -41,6 +43,8 @@ export default function Studio() {
   const [future, setFuture] = useState<Draft[]>([]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [metadataOpen, setMetadataOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
+  const [settingsOpen, setSettingsOpen] = useState(false);
   const [launchUrl, setLaunchUrl] = useState('');
   const importInput = useRef<HTMLInputElement>(null);
   const readiness = useMemo(() => assessReadiness(draft), [draft]);
@@ -218,7 +222,8 @@ export default function Studio() {
   </main>;
 
   return <main className="studio-shell">
-    <header className="studio-topbar"><div className="studio-brand"><Wordmark /><span className="crumb">EDITOR / {(draft.business.name || 'YOUR WEBSITE').toUpperCase()}</span></div><div className="studio-tools"><span className="draft-state">{saveState === 'saved' ? 'Saved in this browser' : saveState === 'error' ? 'Local save unavailable' : 'Saving…'}</span><button className="tool-button" type="button" onClick={() => setMode('library')}>My websites</button><button className="tool-button" type="button" onClick={undo} disabled={!history.length} aria-label="Undo change">↶ Undo</button><button className="tool-button" type="button" onClick={redo} disabled={!future.length} aria-label="Redo change">↷ Redo</button><button className="tool-button" type="button" onClick={beginTemplateChange}>Design</button><button className="tool-button" type="button" onClick={exportBackup}>JSON backup</button><button className="tool-button primary" type="button" onClick={exportHtml}>Export website ↗</button></div></header>
+    <header className="studio-topbar"><div className="studio-brand"><Wordmark /><span className="crumb">EDITOR / {(draft.business.name || 'YOUR WEBSITE').toUpperCase()}</span></div><div className="studio-tools"><span className="draft-state">{saveState === 'saved' ? 'Saved in this browser' : saveState === 'error' ? 'Local save unavailable' : 'Saving…'}</span><button className="tool-button" type="button" onClick={() => setAccountOpen(true)}>Account</button><button className="tool-button" type="button" onClick={() => setSettingsOpen(true)}>Settings</button><button className="tool-button" type="button" onClick={() => setMode('library')}>My websites</button><button className="tool-button" type="button" onClick={undo} disabled={!history.length} aria-label="Undo change">↶ Undo</button><button className="tool-button" type="button" onClick={redo} disabled={!future.length} aria-label="Redo change">↷ Redo</button><button className="tool-button" type="button" onClick={beginTemplateChange}>Design</button><button className="tool-button" type="button" onClick={exportBackup}>JSON backup</button><button className="tool-button primary" type="button" onClick={exportHtml}>Export website ↗</button></div></header>
+    {accountOpen && <div className="panel-overlay"><AccountPanel onClose={() => setAccountOpen(false)} /></div>}{settingsOpen && <div className="panel-overlay"><SettingsPanel onClose={() => setSettingsOpen(false)} /></div>}
     <div className="studio-layout">
       <aside className="editor-panel" aria-label="Website editor"><div className="editor-header"><div><small>YOUR WEBSITE</small><h1>Make it yours.</h1></div><button className="icon-button" type="button" title="Change template" onClick={beginTemplateChange}>◫</button></div><div className="local-badge"><i /> Browser-local draft</div>{saveState === 'error' && <p className="wizard-error" role="alert">{error || 'Could not save on this device; export a backup.'}</p>}{error && saveState !== 'error' && <p className="wizard-error" role="alert">{error}</p>}
         <label className="panel-label" htmlFor="site-title">Website name</label><input id="site-title" value={draft.site.title} onChange={(e) => commit({ ...draft, site: { ...draft.site, title: e.target.value } })} />
