@@ -1,5 +1,6 @@
 import type { SiteSection } from './site-document';
 import type { BrandKit, LaunchPage, LaunchProject } from './launch-loop/create-project';
+import { hashSafetyId } from './ai-provider-new';
 
 export type AiSitePlan = { version: 1; brief: { name: string; service: string; audience: string; location: string; tone: string; primaryCta: string }; pages: Array<{ id: string; title: string; path: string; goal: string; sectionTypes: string[] }>; theme: { mode: 'light' | 'dark'; accent: string; ink: string; paper: string; typeScale: 'compact' | 'balanced' | 'expressive'; density: 'compact' | 'balanced' | 'expressive' }; contentPrompts: Array<{ sectionId: string; factsNeeded: string[] }>; seo: { title: string; description: string; keywords: string[] }; missingInformation: string[]; warnings: string[] };
 const sections = new Set(['hero', 'services', 'about', 'gallery', 'faq', 'contact', 'testimonials']);

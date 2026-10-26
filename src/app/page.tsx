@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 export const metadata: Metadata = { alternates: { canonical: 'https://auvrantis-create.vercel.app/' } };
 import Link from 'next/link';
 
+function Footer() { return <footer className="brand-footer"><span className="footer-mark">AUVRANTIS<br /><b>GROUP</b></span><div className="footer-center"><span>WE MAKE GOOD TOOLS FOR<br />PEOPLE MAKING GOOD THINGS.</span><strong>By Auvrantis Group</strong><Link href="/guide">Privacy & methodology</Link></div><div className="footer-meta"><span>CREATE / WEBSITE BUILDER</span><span>© AUVRANTIS GROUP 2026</span></div></footer>; }
+
 export default function Home() {
   const checkUrl = process.env.NEXT_PUBLIC_AUVRANTIS_CHECK_URL;
   return (

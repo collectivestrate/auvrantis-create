@@ -1,16 +1,17 @@
-"use client';
+"use client";
 
+import React from 'react';
 import { designPresets } from '@/lib/design-system';
-import { useDraft } from '@/lib/templates';
+import type { Draft } from '@/lib/templates';
 
-export default function DesignSystemPanel() {
-  const [draft, setDraft] = useDraft();
-  const inkRef = React.useRef<HTMLInputElement>(null);
-  const paperRef = React.useRef<HTMLInputElement>(null);
-  const accentRef = React.useRef<HTMLInputElement>(null);
+interface DesignSystemPanelProps {
+  draft: Draft;
+  onUpdateDraft: (draft: Draft) => void;
+}
 
+export default function DesignSystemPanel({ draft, onUpdateDraft }: DesignSystemPanelProps) {
   const applyPreset = (preset: typeof designPresets[0]) => {
-    setDraft({
+    onUpdateDraft({
       ...draft,
       site: {
         ...draft.site,
@@ -44,11 +45,10 @@ export default function DesignSystemPanel() {
         <label>
           Ink
           <input
-            ref={inkRef}
             type="color"
             value={draft.site.theme.ink}
             onChange={(e) =>
-              setDraft({
+              onUpdateDraft({
                 ...draft,
                 site: {
                   ...draft.site,
@@ -61,11 +61,10 @@ export default function DesignSystemPanel() {
         <label>
           Paper
           <input
-            ref={paperRef}
             type="color"
             value={draft.site.theme.paper}
             onChange={(e) =>
-              setDraft({
+              onUpdateDraft({
                 ...draft,
                 site: {
                   ...draft.site,
@@ -78,11 +77,10 @@ export default function DesignSystemPanel() {
         <label>
           Accent
           <input
-            ref={accentRef}
             type="color"
             value={draft.site.theme.accent}
             onChange={(e) =>
-              setDraft({
+              onUpdateDraft({
                 ...draft,
                 site: {
                   ...draft.site,
