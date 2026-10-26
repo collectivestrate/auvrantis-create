@@ -126,7 +126,7 @@ export default function Home() {
             </h2>
           </div>
           <p>
-            Six polished designs, each with its own rhythm. Choose one, then change whatever you like.<br /><br />
+            Twelve polished designs, each with its own rhythm. Choose one, then change whatever you like.<br /><br />
             <b>Hand-built templates. No AI-generated copy.</b>
           </p>
         </div>
@@ -173,6 +173,48 @@ export default function Home() {
             layout: 'template-form',
             accent: '#B9A5FF',
             description: 'Precise lines, bold scale'
+          }, {
+            id: 'cafe',
+            name: 'Café & Restaurant',
+            category: 'Food & drink',
+            layout: 'template-cafe',
+            accent: '#8B5E3C',
+            description: 'Menu-first, warm hospitality'
+          }, {
+            id: 'salon',
+            name: 'Salon & Barber',
+            category: 'Personal care',
+            layout: 'template-salon',
+            accent: '#D472A8',
+            description: 'Clean, inviting, service-focused'
+          }, {
+            id: 'trainer',
+            name: 'Personal Trainer',
+            category: 'Fitness',
+            layout: 'template-trainer',
+            accent: '#FF4757',
+            description: 'Energetic, results-driven'
+          }, {
+            id: 'photographer',
+            name: 'Photographer',
+            category: 'Creative',
+            layout: 'template-photographer',
+            accent: '#1A1A2E',
+            description: 'Gallery-first, visual storytelling'
+          }, {
+            id: 'trades',
+            name: 'Home Services',
+            category: 'Services',
+            layout: 'template-trades',
+            accent: '#2E86AB',
+            description: 'Trust-building, practical'
+          }, {
+            id: 'realtor',
+            name: 'Real Estate',
+            category: 'Property',
+            layout: 'template-realtor',
+            accent: '#007B5E',
+            description: 'Listing-led, professional'
           }
           ].map((template, index) => (
             <article className={`template-card card-${template.id}`} key={template.id}>
@@ -180,7 +222,8 @@ export default function Home() {
                 <div className="mock-nav">
                   <b>{[
                     'ATELIER / 08', 'FIELDWORK', 'INDEX OFFICE', 'GOOD DAY',
-                    'COMMON GROUND', 'FORM & FUNCTION'
+                    'COMMON GROUND', 'FORM & FUNCTION', 'CAFE', 'SALON',
+                    'TRAINER', 'PHOTOGRAPHER', 'TRADES', 'REALTOR'
                   ][index]}</b>
                   <span>MENU　↗</span>
                 </div>
@@ -192,7 +235,13 @@ export default function Home() {
                       'Advice for what’s next',
                       'A better kind of wellness',
                       'Your neighborhood favorite',
-                      'Spaces with a point of view'
+                      'Spaces with a point of view',
+                      'Food & drink',
+                      'Personal care',
+                      'Fitness & training',
+                      'Visual storytelling',
+                      'Home services',
+                      'Property & listings'
                     ][index]}
                   </span>
                   <b>
@@ -202,16 +251,22 @@ export default function Home() {
                       'Make the next move count.',
                       'Feel more like yourself.',
                       'Good things grow here.',
-                      'Shape a better space.'
+                      'Shape a better space.',
+                      'Good food. Good company.',
+                      'Modern care. Made personal.',
+                      'Stronger. Steadier. Clearer.',
+                      'Images that tell a story.',
+                      'Solid work. Clear pricing.',
+                      'Listings you can trust.'
                     ][index]}
                   </b>
                   <span className="mock-shape">
-                    {['✳', '↗', '◒', '☼', '✺', '▧'][index]}
+                    {['✳', '↗', '◒', '☼', '✺', '▧', '☕', '✂', '💪', '📷', '🔧', '🏠'][index]}
                   </span>
                 </div>
                 <div className="mock-bottom">
                   <span>SCROLL TO EXPLORE</span>
-                  <span>0{index + 1} / 06</span>
+                  <span>{String(index + 1).padStart(2, '0')} / 12</span>
                 </div>
               </div>
               <div className="template-caption">

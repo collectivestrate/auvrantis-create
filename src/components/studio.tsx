@@ -21,7 +21,21 @@ import DesignTokens from './design-tokens';
 
 const STORAGE_KEY = 'auvrantis-create:projects:v2';
 const LEGACY_STORAGE_KEY = 'auvrantis-create:draft:v1';
-const sectionNames: Record<string, string> = { hero: 'Hero', services: 'Services', about: 'About', gallery: 'Work & images', faq: 'FAQs', contact: 'Contact', testimonials: 'Customer stories' };
+const sectionNames: Record<string, string> = {
+  hero: 'Hero',
+  services: 'Services',
+  about: 'About',
+  gallery: 'Work & images',
+  faq: 'FAQs',
+  contact: 'Contact',
+  testimonials: 'Customer stories',
+  pricing: 'Pricing table',
+  team: 'Team',
+  hours: 'Hours & location',
+  booking: 'Booking link',
+  cta: 'CTA band',
+  footer: 'Footer'
+};
 
 function Footer({ compact = false }: { compact?: boolean }) {
   return <footer className="studio-footer"><strong>By Auvrantis Group</strong><span>{compact ? 'AUVRANTIS CREATE · WEBSITE BUILDER' : 'Auvrantis Create · Website Builder'}</span><span>Draft storage: this browser only</span><Link href="/privacy">Privacy</Link></footer>;
@@ -211,7 +225,7 @@ export default function Studio() {
   if (mode === 'design') return <main className="wizard-screen">
     <header className="wizard-nav"><Wordmark /><span className="local-badge"><i /> Draft storage: this browser only</span></header>
     <div className="wizard-main"><p className="wizard-progress">{isChangingTemplate ? 'CHANGE DESIGN' : 'START HERE　/　01'}</p><h1>{isChangingTemplate ? <>A new look.<br />Your words stay.</> : <>Pick your<br />starting point.</>}</h1><p>{isChangingTemplate ? 'Your section order, copy, and business details stay as they are. The new design updates the layout and accent color.' : 'Choose a design with a point of view. You can edit its words, colors, and sections later. Hand-built starting templates; no AI-generated copy.'}</p>
-      <div className="template-choice-grid">{templates.map((template, index) => <button type="button" key={template.id} className="template-choice" aria-pressed={selectedTemplate === template.id} onClick={() => setSelectedTemplate(template.id)}><div className="choice-swatch" style={{ background: template.accent }}><span>{template.category.toUpperCase()}</span><strong>{['Make room for good work.','More outside. More often.','Make the next move count.','Feel more like yourself.','Good things grow here.','Shape a better space.'][index]}</strong><span>AUVRANTIS CREATE　/　0{index + 1}</span></div><div className="choice-details"><span>{template.category}</span><h2>{template.name}</h2><p>{template.note}</p></div></button>)}</div>
+      <div className="template-choice-grid">{templates.map((template, index) => <button type="button" key={template.id} className="template-choice" aria-pressed={selectedTemplate === template.id} onClick={() => setSelectedTemplate(template.id)}><div className="choice-swatch" style={{ background: template.accent }}><span>{template.category.toUpperCase()}</span><strong>{['Make room for good work.','More outside. More often.','Make the next move count.','Feel more like yourself.','Good things grow here.','Shape a better space.','Good food. Good company.','Modern care. Made personal.','Stronger. Steadier. Clearer.','Images that tell a story.','Solid work. Clear pricing.','Listings you can trust.'][index]}</strong><span>AUVRANTIS CREATE　/　{String(index + 1).padStart(2, '0')}</span></div><div className="choice-details"><span>{template.category}</span><h2>{template.name}</h2><p>{template.note}</p></div></button>)}</div>
       {error && <p className="wizard-error" role="alert">{error}</p>}
       <div className="wizard-actions"><button className="button" type="button" onClick={isChangingTemplate ? applyTemplateChange : beginQuestionnaire}>{isChangingTemplate ? `Keep my content & apply ${selectedTemplateData.name}` : `Continue with ${selectedTemplateData.name}`} <span aria-hidden>↗</span></button>{isChangingTemplate ? <button className="back-link" type="button" onClick={() => { setIsChangingTemplate(false); setMode('edit'); }}>Back to editor</button> : <a className="back-link" href="/">Back to home</a>}</div>
     </div><Footer />
@@ -245,6 +259,7 @@ export default function Studio() {
         <div className="launch-toolkit"><span className="panel-label">Share & improve</span><p>Make a share image or copy launch text. Your website stays a draft until you host it.</p><button className="outline-button" type="button" onClick={exportShareCard}>Download share image</button><button className="outline-button" type="button" onClick={() => void copyLaunchCopy()}>Copy launch copy</button><label className="field-label" htmlFor="hosted-site-url">Your hosted website URL</label><input id="hosted-site-url" type="url" placeholder="https://yourdomain.com" value={launchUrl} onChange={(e) => setLaunchUrl(e.target.value)} /><button className="button small" type="button" onClick={checkUrl} disabled={!checkBase}>Open in Auvrantis Check ↗</button>{!checkBase && <small>Auvrantis Check connection is not configured yet.</small>}</div>
       <AiPlanner onApply={(project) => { const next = createDraft(draft.templateId, project.brief.name); next.business = { ...project.brief, email: draft.business.email }; next.site.title = project.brief.name; next.site.description = project.brief.service || next.site.description; next.site.theme = { ink: project.brandKit.ink, paper: project.brandKit.paper, accent: project.brandKit.accent }; next.site.sections = project.pages[0]?.sections || next.site.sections; commit(next); }} /><ContentLibrary /><MarketingPanel /><CloudPanel draft={draft} onLoad={(loaded) => commit(loaded)} />
       <DesignTokens />
+      </aside>
       <section className="preview-area" aria-label="Website preview"><div className="preview-toolbar"><span>Live preview <small>· unsaved changes update as you edit</small></span><div className="toggle-group" aria-label="Preview size"><button type="button" className={device === 'desktop' ? 'active' : ''} aria-pressed={device === 'desktop'} onClick={() => setDevice('desktop')}>Desktop</button><button type="button" className={device === 'mobile' ? 'active' : ''} aria-pressed={device === 'mobile'} onClick={() => setDevice('mobile')}>Mobile</button></div></div><SitePreview draft={draft} device={device} onNavigate={() => setMenuOpen((open) => !open)} menuOpen={menuOpen} /></section>
     </div>
     <Footer compact />
@@ -256,9 +271,30 @@ function SitePreview({ draft, device, onNavigate, menuOpen }: { draft: Draft; de
   const displayName = draft.business.name || draft.site.title || 'Your studio';
   return <div className="preview-stage"><div className={`site-preview ${device} template-${templates.some((template) => template.id === draft.templateId) ? draft.templateId : 'atelier'}`} style={{ '--preview-ink': draft.site.theme.ink, '--preview-paper': draft.site.theme.paper, '--preview-accent': draft.site.theme.accent, '--preview-accent-text': contrastTextColor(draft.site.theme.accent) } as React.CSSProperties}>
     <div className="site-preview-top"><b>{draft.site.title || displayName}</b><button type="button" aria-expanded={menuOpen} onClick={onNavigate} style={{ border: 0, background: 'transparent', font: 'inherit', cursor: 'pointer' }}>{menuOpen ? 'CLOSE ×' : 'MENU　↗'}</button></div>{menuOpen && <div className="preview-nav-menu">{visible.filter((section) => section.type !== 'hero').map((section) => <a key={section.id} href={`#preview-${section.id}`}>{sectionNames[section.type]}　↗</a>)}</div>}
-    {visible.map((section) => section.type === 'hero'
-      ? <section id={`preview-${section.id}`} className="site-preview-hero" key={section.id}><div><span className="preview-label">{draft.business.service || 'INDEPENDENT WORK, MADE WITH CARE'}</span><h1>{section.title}</h1><p>{section.body}</p><span className="preview-cta">{draft.business.email ? `CONTACT ${displayName.toUpperCase()}` : 'MADE WITH CARE'}</span></div><div className="preview-orb"><span>{draft.templateId === 'fieldwork' ? '↗' : draft.templateId === 'goodday' ? '☼' : '✳'}</span></div></section>
-      : <section id={`preview-${section.id}`} className={`site-preview-section ${section.type === 'services' ? 'accent-section' : ''} ${section.type === 'gallery' ? 'image-section' : ''}`} key={section.id}><div><span className="preview-label">{sectionNames[section.type]}</span><h2>{section.title}</h2><p>{section.body}</p></div>{section.type === 'gallery' && <GalleryImage url={section.imageUrl} />}{section.type === 'contact' && draft.site.contactEmail && <a className="preview-cta" href={`mailto:${draft.site.contactEmail}`}>Email {draft.site.contactEmail}</a>}</section>)}
+    {visible.map((section) => {
+      if (section.type === 'hero') {
+        return <section id={`preview-${section.id}`} className="site-preview-hero" key={section.id}><div><span className="preview-label">{draft.business.service || 'INDEPENDENT WORK, MADE WITH CARE'}</span><h1>{section.title}</h1><p>{section.body}</p><span className="preview-cta">{draft.business.email ? `CONTACT ${displayName.toUpperCase()}` : 'MADE WITH CARE'}</span></div><div className="preview-orb"><span>{draft.templateId === 'fieldwork' ? '↗' : draft.templateId === 'goodday' ? '☼' : '✳'}</span></div></section>;
+      }
+      if (section.type === 'cta') {
+        return <section id={`preview-${section.id}`} className="site-preview-section cta-section" key={section.id}><div><span className="preview-label">ACTION</span><h2>{section.title}</h2><p>{section.body}</p><a className="preview-cta" href="#contact">Get in touch ↗</a></div></section>;
+      }
+      if (section.type === 'pricing') {
+        return <section id={`preview-${section.id}`} className="site-preview-section pricing-section" key={section.id}><div><span className="preview-label">PRICING</span><h2>{section.title}</h2><p>{section.body}</p><div className="pricing-cards"><div className="pricing-card"><h3>Starter</h3><p>For getting started</p><span className="price">From $—</span></div><div className="pricing-card"><h3>Pro</h3><p>For growing businesses</p><span className="price">Contact for pricing</span></div></div></div></section>;
+      }
+      if (section.type === 'hours') {
+        return <section id={`preview-${section.id}`} className="site-preview-section hours-section" key={section.id}><div><span className="preview-label">HOURS</span><h2>{section.title}</h2><p>{section.body}</p>{draft.business.location && <small>📍 {draft.business.location}</small>}</div></section>;
+      }
+      if (section.type === 'hours') {
+        return <section id={`preview-${section.id}`} className="site-preview-section hours-section" key={section.id}><div><span className="preview-label">HOURS</span><h2>{section.title}</h2><p>{section.body}</p>{draft.business.location && <small>📍 {draft.business.location}</small>}</div></section>;
+      }
+      if (section.type === 'booking') {
+        return <section id={`preview-${section.id}`} className="site-preview-section booking-section" key={section.id}><div><span className="preview-label">BOOK</span><h2>{section.title}</h2><p>{section.body}</p><a className="preview-cta" href="#">Book now ↗</a></div></section>;
+      }
+      if (section.type === 'footer') {
+        return <section id={`preview-${section.id}`} className="site-preview-section footer-section" key={section.id}><div><span className="preview-label">FOOTER</span><p>{section.body}</p></div></section>;
+      }
+      return <section id={`preview-${section.id}`} className={`site-preview-section ${section.type === 'services' ? 'accent-section' : ''} ${section.type === 'gallery' ? 'image-section' : ''}`} key={section.id}><div><span className="preview-label">{sectionNames[section.type]}</span><h2>{section.title}</h2><p>{section.body}</p></div>{section.type === 'gallery' && <GalleryImage url={section.imageUrl} />}{section.type === 'contact' && draft.site.contactEmail && <a className="preview-cta" href={`mailto:${draft.site.contactEmail}`}>Email {draft.site.contactEmail}</a>}</section>;
+    })}
     <footer className="site-preview-foot">{displayName}{draft.site.contactEmail && <a style={{ float: 'right' }} href={`mailto:${draft.site.contactEmail}`}>{draft.site.contactEmail}</a>}</footer>
   </div></div>;
 }

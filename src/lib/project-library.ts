@@ -6,7 +6,7 @@ export type LocalProject = { id: string; name: string; createdAt: string; update
 export type LibraryRestore = { projects: LocalProject[]; migratedLegacy: boolean; recovered: boolean };
 const FORMAT = 'auvrantis-create-project';
 const MAX_BYTES = 1_000_000;
-const TYPES = ['hero', 'services', 'about', 'gallery', 'faq', 'contact', 'testimonials'];
+const TYPES = ['hero', 'services', 'about', 'gallery', 'faq', 'contact', 'testimonials', 'pricing', 'team', 'hours', 'booking', 'cta', 'footer'];
 
 function record(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value);
@@ -79,9 +79,19 @@ export function parseProjectBackup(raw: string, maxBytes = MAX_BYTES): { name: s
 
 function emptySection(type: string, id: string): SiteSection {
   const labels: Record<string, [string, string]> = {
-    hero: ['Your headline', 'Add a short introduction in your own words.'], services: ['What you offer', 'Describe your services and what customers can expect.'],
-    about: ['A little about you', 'Share the details that help people understand your work.'], gallery: ['Selected work', 'Add a short note about the work you want to show.'],
-    faq: ['Frequently asked questions', 'Add a question and answer your customers often need.'], contact: ['Get in touch', 'Tell visitors how they can reach you.'], testimonials: ['Customer stories', 'Add a real customer quote only after you have permission to share it.'],
+    hero: ['Your headline', 'Add a short introduction in your own words.'],
+    services: ['What you offer', 'Describe your services and what customers can expect.'],
+    about: ['A little about you', 'Share the details that help people understand your work.'],
+    gallery: ['Selected work', 'Add a short note about the work you want to show.'],
+    faq: ['Frequently asked questions', 'Add a question and answer your customers often need.'],
+    contact: ['Get in touch', 'Tell visitors how they can reach you.'],
+    testimonials: ['Customer stories', 'Add a real customer quote only after you have permission to share it.'],
+    pricing: ['Simple pricing', 'List your plans or packages with what is included.'],
+    team: ['Meet the team', 'Introduce the people behind the work.'],
+    hours: ['Hours & location', 'Share when and where customers can find you.'],
+    booking: ['Book an appointment', 'Link to your scheduling tool or add a contact note.'],
+    cta: ['Ready to start?', 'A clear next step for visitors who want to work with you.'],
+    footer: ['Stay in touch', 'A quiet close with the essentials.'],
   };
   if (!TYPES.includes(type)) throw new Error('Choose a supported section type.');
   const [title, body] = labels[type];

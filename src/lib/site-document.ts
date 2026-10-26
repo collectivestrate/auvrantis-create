@@ -64,7 +64,7 @@ export function serializeSite(site: SiteDocument) {
   if (contactEmail && !/^[^\s@<>]+@[^\s@<>]+\.[^\s@<>]+$/.test(contactEmail)) {
     throw new Error('Invalid contact email.');
   }
-  const knownTemplates = ['atelier', 'fieldwork', 'index', 'goodday', 'common', 'form'];
+  const knownTemplates = ['atelier', 'fieldwork', 'index', 'goodday', 'common', 'form', 'cafe', 'salon', 'trainer', 'photographer', 'trades', 'realtor'];
   const templateId = knownTemplates.includes(site.templateId ?? '') ? site.templateId : 'atelier';
   const sections = site.sections.filter((section) => section.visible).map((section) => {
     const imageUrl = safeUrl(section.imageUrl);
