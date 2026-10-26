@@ -1,0 +1,16 @@
+.marketing-fields{border:0;padding:0;margin:0;min-width:0}
+.marketing-fields details{border-block:1px solid currentColor;padding:14px 0;margin:14px 0}
+.marketing-fields summary{cursor:pointer;font-weight:700;font-size:12px}
+.marketing-help{font-size:11px;line-height:1.5}
+.marketing-contact-form{display:grid;gap:8px}
+.marketing-consent{display:flex;align-items:flex-start;gap:8px;font-size:11px;line-height:1.5}
+.marketing-consent input{width:auto!important;flex:0 0 auto}
+.marketing-contacts{padding:0;list-style:none;max-height:240px;overflow:auto}
+.marketing-contacts li{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid currentColor;padding:10px 0;font-size:11px}
+.marketing-contacts span{min-width:0;overflow-wrap:anywhere}
+.marketing-contacts small{display:block;margin-top:4px;text-transform:capitalize}
+.marketing-email-preview{padding:18px;margin-top:16px;border:1px solid currentColor;background:var(--paper);color:var(--ink);overflow-wrap:anywhere}
+.marketing-email-preview h3{font-size:20px;line-height:1.2}
+.marketing-email-preview>div{white-space:pre-wrap;line-height:1.6;font-size:13px}
+.marketing-email-preview footer{margin-top:20px;padding-top:10px;border-top:1px solid currentColor;font-size:10px;line-height:1.5}
+.marketing-panel button:disabled{opacity:.5;cursor:not-allowed}
