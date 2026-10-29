@@ -1,387 +1,155 @@
 import type { Metadata } from 'next';
-export const metadata: Metadata = { alternates: { canonical: 'https://auvrantis-create.vercel.app/' } };
 import Link from 'next/link';
+import CodeLab from '@/components/code-lab';
+import { MkFooter, MkNav } from '@/components/mk-chrome';
+import { templates } from '@/lib/templates';
 
-function Footer() { return <footer className="brand-footer"><span className="footer-mark">AUVRANTIS<br /><b>GROUP</b></span><div className="footer-center"><span>WE MAKE GOOD TOOLS FOR<br />PEOPLE MAKING GOOD THINGS.</span><strong>By Auvrantis Group</strong><Link href="/guide">Privacy & methodology</Link></div><div className="footer-meta"><span>CREATE / WEBSITE BUILDER</span><span>© AUVRANTIS GROUP 2026</span></div></footer>; }
+export const metadata: Metadata = { alternates: { canonical: 'https://auvrantis-create.vercel.app/' } };
 
 export default function Home() {
   const checkUrl = process.env.NEXT_PUBLIC_AUVRANTIS_CHECK_URL;
   return (
-    <main className="landing">
-      <header className="site-nav">
-        <Link className="wordmark" href="/">
-          AUVRANTIS <span>CREATE</span><small>WEBSITE BUILDER</small>
-        </Link>
-        <nav aria-label="Main navigation">
-          <a href="#designs">Designs</a>
-          <a href="#how">How it works</a>
-          {checkUrl ? (
-            <a href={checkUrl}>Auvrantis Check ↗</a>
-          ) : (
-            <span className="nav-unavailable" title="Auvrantis Check is not connected yet">Check · not connected</span>
-          )}
-          <a className="nav-price" href="#pricing">$15.99 / month</a>
-        </nav>
-        <a className="button button-small" href="/studio">
-          Start building <span aria-hidden>↗</span>
-        </a>
-      </header>
+    <main className="mk">
+      <MkNav checkUrl={checkUrl} />
 
-      <section className="hero-section">
-        <div className="hero-copy">
-          <p className="kicker">
-            <i /> A simpler way to make a good website
-          </p>
-          <h1>
-            Big idea.<br /><em>Good</em> website.
-          </h1>
-          <p className="hero-intro">
-            A little guidance. A lot of room to make it yours. Build a polished website for your business, your way.
-          </p>
-          <div className="hero-actions">
-            <a className="button" href="/studio">
-              Start building <span aria-hidden>↗</span>
-            </a>
-            <span className="price-note">$15.99 / month · subscription checkout opens at launch</span>
+      <section className="mk-hero">
+        <div className="mk-wrap">
+          <h1>Build your website. Learn how it works.</h1>
+          <p>Pick a design, tell us about your business, and make it yours. Along the way, see the code behind a page and learn what each part does.</p>
+          <div className="mk-hero-actions">
+            <Link className="mk-btn" href="/studio">Start building</Link>
+            <Link className="mk-btn mk-btn-ghost" href="/learn">See how it works</Link>
           </div>
-          <div className="social-proof">
-            <span className="avatars">
-              <i>↗</i><i>✳</i><i>◒</i>
-            </span>
-            <span>
-              A good place to start<br /><b>Your first draft is yours to keep.</b>
-            </span>
-          </div>
-        </div>
-
-        <div className="hero-art" aria-label="Preview of an editable website design">
-          <div className="art-caption">
-            <span>YOUR IDEA, IN VIEW</span>
-            <span>001 / 012</span>
-          </div>
-          <div className="preview-sheet">
-            <div className="preview-top">
-              <b>GOOD FORM®</b>
-              <span>DESIGN STUDIO　↗</span>
-            </div>
-            <div className="preview-hero">
-              <div>
-                <span className="mini-kicker">DESIGN WITH A POINT OF VIEW</span>
-                <h2>Make room<br />for <em>good</em><br />work.</h2>
-                <p>Independent creative studio<br />Chicago · working everywhere</p>
-                <span className="mini-cta">EXPLORE THE STUDIO ↗</span>
-              </div>
-              <div className="sun-shape">
-                <i /><b>GF<br />®</b>
-              </div>
-            </div>
-            <div className="preview-foot">
-              <span>IDENTITY / DIGITAL / DIRECTION</span>
-              <span>SCROLL TO EXPLORE ↓</span>
-            </div>
-          </div>
-          <div className="art-sticker">
-            A WEBSITE<br />THAT FEELS<br /><u>LIKE YOU.</u><span>✳</span>
-          </div>
-          <div className="art-number">A–C&nbsp;&nbsp; 2026</div>
+          <p className="mk-hero-note">Free to start. Your drafts stay in your browser.</p>
         </div>
       </section>
 
-      <div className="ticker" aria-label="From a first idea to a finished site">
-        <div>
-          YOUR WORK <i>✳</i> YOUR WORDS <i>✳</i> YOUR NEXT BIG THING <i>✳</i> YOUR WORK <i>✳</i> YOUR WORDS <i>✳</i> YOUR NEXT BIG THING <i>✳</i>
-        </div>
-      </div>
-
-      <section className="manifesto" id="how">
-        <div className="manifesto-label">
-          <span>01 / THE GOOD PART</span>
-          <span>✳</span>
-        </div>
-        <div>
-          <h2>
-            Less blank page.<br /><span>More "that's it."</span>
-          </h2>
-          <p>
-            Start with a design that already has a point of view. Tell us what you do, shape the words, move things around, and make it feel like yours.
-          </p>
-          <a className="text-link" href="/studio">
-            See what you can make <b>↗</b>
-          </a>
-        </div>
-        <div className="manifesto-aside">
-          <span className="aside-sun">✳</span>
-          <p>
-            Twelve distinct starting points.<br />One website that feels<br />like it came from you.
-          </p>
+      <section className="mk-section mk-section-mist" aria-labelledby="lab-title">
+        <div className="mk-wrap">
+          <div className="mk-section-head">
+            <h2 id="lab-title">Change a word. See the code change.</h2>
+            <p>This is a real page and the real HTML behind it. Type your own details and watch both update.</p>
+          </div>
+          <CodeLab compact />
         </div>
       </section>
 
-      <section className="designs" id="designs">
-        <div className="section-heading">
-          <div>
-            <p className="kicker">PICK YOUR STARTING POINT</p>
-            <h2>
-              A good fit<br /><em>from the get-go.</em>
-            </h2>
+      <section className="mk-section" aria-labelledby="why-title">
+        <div className="mk-wrap">
+          <div className="mk-section-head">
+            <h2 id="why-title">Not just a website. A skill.</h2>
+            <p>Most builders hide how a site works. We show you, so you can run it yourself.</p>
           </div>
-          <p>
-            Twelve polished designs, each with its own rhythm. Choose one, then change whatever you like.<br /><br />
-            <b>Hand-built templates. No AI-generated copy.</b>
-          </p>
-        </div>
-        <div className="template-grid">
-          {[{
-            id: 'atelier',
-            name: 'Atelier',
-            category: 'Creative studio',
-            layout: 'template-atelier',
-            accent: '#2448FF',
-            description: 'Quietly confident, image-led'
-          }, {
-            id: 'fieldwork',
-            name: 'Fieldwork',
-            category: 'Outdoor services',
-            layout: 'template-fieldwork',
-            accent: '#D7FF3F',
-            description: 'Warm, grounded, practical'
-          }, {
-            id: 'index',
-            name: 'Index',
-            category: 'Consultant',
-            layout: 'template-index',
-            accent: '#FF745E',
-            description: 'Clear thinking, in full view'
-          }, {
-            id: 'goodday',
-            name: 'Good Day',
-            category: 'Wellness',
-            layout: 'template-goodday',
-            accent: '#FFC843',
-            description: 'Bright energy, easy rhythm'
-          }, {
-            id: 'common',
-            name: 'Common Ground',
-            category: 'Neighborhood shop',
-            layout: 'template-common',
-            accent: '#A8E6CF',
-            description: 'Human, local, memorable'
-          }, {
-            id: 'form',
-            name: 'Form & Function',
-            category: 'Architecture',
-            layout: 'template-form',
-            accent: '#B9A5FF',
-            description: 'Precise lines, bold scale'
-          }, {
-            id: 'cafe',
-            name: 'Café & Restaurant',
-            category: 'Food & drink',
-            layout: 'template-cafe',
-            accent: '#8B5E3C',
-            description: 'Menu-first, warm hospitality'
-          }, {
-            id: 'salon',
-            name: 'Salon & Barber',
-            category: 'Personal care',
-            layout: 'template-salon',
-            accent: '#D472A8',
-            description: 'Clean, inviting, service-focused'
-          }, {
-            id: 'trainer',
-            name: 'Personal Trainer',
-            category: 'Fitness',
-            layout: 'template-trainer',
-            accent: '#FF4757',
-            description: 'Energetic, results-driven'
-          }, {
-            id: 'photographer',
-            name: 'Photographer',
-            category: 'Creative',
-            layout: 'template-photographer',
-            accent: '#1A1A2E',
-            description: 'Gallery-first, visual storytelling'
-          }, {
-            id: 'trades',
-            name: 'Home Services',
-            category: 'Services',
-            layout: 'template-trades',
-            accent: '#2E86AB',
-            description: 'Trust-building, practical'
-          }, {
-            id: 'realtor',
-            name: 'Real Estate',
-            category: 'Property',
-            layout: 'template-realtor',
-            accent: '#007B5E',
-            description: 'Listing-led, professional'
-          }
-          ].map((template, index) => (
-            <article className={`template-card card-${template.id}`} key={template.id}>
-              <div className="template-visual">
-                <div className="mock-nav">
-                  <b>{[
-                    'ATELIER / 08', 'FIELDWORK', 'INDEX OFFICE', 'GOOD DAY',
-                    'COMMON GROUND', 'FORM & FUNCTION', 'CAFE', 'SALON',
-                    'TRAINER', 'PHOTOGRAPHER', 'TRADES', 'REALTOR'
-                  ][index]}</b>
-                  <span>MENU　↗</span>
-                </div>
-                <div className="mock-body">
-                  <span className="mock-type">
-                    {[
-                      'Independent creative studio',
-                      'Outside, made better',
-                      'Advice for what’s next',
-                      'A better kind of wellness',
-                      'Your neighborhood favorite',
-                      'Spaces with a point of view',
-                      'Food & drink',
-                      'Personal care',
-                      'Fitness & training',
-                      'Visual storytelling',
-                      'Home services',
-                      'Property & listings'
-                    ][index]}
-                  </span>
-                  <b>
-                    {[
-                      'Make room for good work.',
-                      'More outside. More often.',
-                      'Make the next move count.',
-                      'Feel more like yourself.',
-                      'Good things grow here.',
-                      'Shape a better space.',
-                      'Good food. Good company.',
-                      'Modern care. Made personal.',
-                      'Stronger. Steadier. Clearer.',
-                      'Images that tell a story.',
-                      'Solid work. Clear pricing.',
-                      'Listings you can trust.'
-                    ][index]}
-                  </b>
-                  <span className="mock-shape">
-                    {['✳', '↗', '◒', '☼', '✺', '▧', '☕', '✂', '💪', '📷', '🔧', '🏠'][index]}
-                  </span>
-                </div>
-                <div className="mock-bottom">
-                  <span>SCROLL TO EXPLORE</span>
-                  <span>{String(index + 1).padStart(2, '0')} / 12</span>
-                </div>
-              </div>
-              <div className="template-caption">
-                <div>
-                  <span>{template.category}</span>
-                  <h3>{template.name}</h3>
-                </div>
-                <span className="template-arrow">↗</span>
-              </div>
+          <div className="mk-trio">
+            <article>
+              <h3>Learn as you build</h3>
+              <p>Short lessons cover headlines, color, sections, contact links and search basics. Each one ends with something you can try in your own site.</p>
             </article>
-          ))}
-        </div>
-        <a className="button designs-cta" href="/studio">
-          Choose your starting point <span aria-hidden>↗</span>
-        </a>
-      </section>
-
-      <section className="steps">
-        <div className="steps-left">
-          <p className="kicker">A SMALL STEP THAT GOES A LONG WAY</p>
-          <h2>
-            From idea<br />to <em>online.</em>
-          </h2>
-          <p>Three friendly steps. No design software. No starting from scratch.</p>
-          <a className="button" href="/studio">
-            Start building <span aria-hidden>↗</span>
-          </a>
-        </div>
-        <div className="steps-list">
-          <article>
-            <span>01</span>
-            <div>
-              <h3>Tell us the basics</h3>
-              <p>A few details about your business, who you help, and how you sound.</p>
-            </div>
-            <b>✳</b>
-          </article>
-          <article>
-            <span>02</span>
-            <div>
-              <h3>Choose your look</h3>
-              <p>Pick a design with a little personality. Adjust every section until it fits.</p>
-            </div>
-            <b>✳</b>
-          </article>
-          <article>
-            <span>03</span>
-            <div>
-              <h3>Make it yours</h3>
-              <p>Edit, preview, save a local draft, and export a page you can use.</p>
-            </div>
-            <b>✳</b>
-          </article>
+            <article>
+              <h3>See the code</h3>
+              <p>See the HTML and CSS behind a page, with a short note on what each part does, so the code stops being a mystery.</p>
+            </article>
+            <article>
+              <h3>Made for your town</h3>
+              <p>Add your city and what you do, and your site says it. Neighborhood shops, trades, salons, studios and more.</p>
+            </article>
+          </div>
+          <div className="mk-center">
+            <Link className="mk-btn mk-btn-ghost" href="/learn">Browse the lessons</Link>
+          </div>
         </div>
       </section>
 
-      <section className="pricing-strip" id="pricing">
-        <div>
-          <p className="kicker">AUVRANTIS CREATE / WEBSITE BUILDER</p>
-          <h2>
-            A clear price.<br /><em>One product.</em>
-          </h2>
-        </div>
-        <div className="pricing-strip-detail">
-          <p className="pricing-strip-cost">
-            $15.99 <span>/ month · Create</span>
-          </p>
-          <p>A planned hosting subscription for Auvrantis Create. Build and export your structured draft locally today.</p>
-          <p className="pricing-coming">
-            Auvrantis Check is a separate product at $15.99/month. Subscribing to both would be $31.98/month before applicable taxes.
-          </p>
-          <p className="pricing-coming">
-            Subscription checkout opens at launch. No payment is collected here.
-          </p>
-          <a href="/studio" className="text-link">
-            Start with a local draft <b>↗</b>
-          </a>
+      <section className="mk-section mk-section-mist" id="designs" aria-labelledby="designs-title">
+        <div className="mk-wrap">
+          <div className="mk-section-head">
+            <h2 id="designs-title">{templates.length} designs for the way you work.</h2>
+            <p>Hand-built starting points for different kinds of business. Pick one, then change anything.</p>
+          </div>
+          <div className="mk-designs">
+            {templates.map((template) => (
+              <Link className="mk-design" href="/studio" key={template.id}>
+                <div className="mk-design-swatch" style={{ background: template.accent }} aria-hidden />
+                <h3>{template.name}</h3>
+                <p>{template.note}</p>
+              </Link>
+            ))}
+          </div>
+          <div className="mk-center">
+            <Link className="mk-btn" href="/studio">Choose a design</Link>
+          </div>
         </div>
       </section>
 
-      <section className="privacy-strip">
-        <div>
-          <p className="kicker">CLEAR BY DESIGN</p>
-          <h2>
-            Your words<br />stay yours.
-          </h2>
-          <p>
-            Website text is saved in your browser on this device. Starter copy is deterministic and hand-written; the builder does not call an AI service or invent customer proof.
-          </p>
-          <a className="text-link" href="/guide">
-            Read privacy & methodology <b>↗</b>
-          </a>
-        </div>
-        <div className="privacy-badge">
-          <span>LOCAL DRAFT</span>
-          <b>THIS<br />BROWSER<br />ONLY</b>
-          <i>✳</i>
+      <section className="mk-section mk-section-dark" aria-labelledby="ways-title">
+        <div className="mk-wrap">
+          <div className="mk-section-head">
+            <h2 id="ways-title">Your site. Your home for it.</h2>
+            <p>Keep your website wherever you like, and keep editing it with the tools you already use.</p>
+          </div>
+          <div className="mk-ways">
+            <article>
+              <span className="mk-status mk-status-live">Available now</span>
+              <h3>Export and host anywhere</h3>
+              <p>Download a complete HTML file and put it on any host you choose. Download a backup to edit again later.</p>
+            </article>
+            <article>
+              <span className="mk-status">Coming soon</span>
+              <h3>Save to the cloud</h3>
+              <p>Keep your projects in your account and open them on any device.</p>
+            </article>
+            <article>
+              <span className="mk-status">Coming soon</span>
+              <h3>Edit with Claude or ChatGPT</h3>
+              <p>Connect your favorite assistant to keep improving your site. Until then, you can paste your exported code into any assistant.</p>
+            </article>
+          </div>
         </div>
       </section>
 
-      <section className="closing">
-        <span className="closing-orbit">✳</span>
-        <p className="kicker">THE NEXT BIT IS YOURS</p>
-        <h2>
-          Let’s make<br /><em>something good.</em>
-        </h2>
-        <a className="button button-lime" href="/studio">
-          Start building <span aria-hidden>↗</span>
-        </a>
-        <p className="closing-price">
-          A local draft is free to shape. <b>Hosting subscription planned at $15.99 / month.</b>
-        </p>
+      <section className="mk-section" id="pricing" aria-labelledby="pricing-title">
+        <div className="mk-wrap">
+          <div className="mk-section-head">
+            <h2 id="pricing-title">Simple pricing.</h2>
+            <p>Start with a free draft. Choose a plan when you are ready to build more.</p>
+          </div>
+          <div className="mk-plans">
+            <article className="mk-plan">
+              <h3>Starter</h3>
+              <p className="mk-plan-sub">For your first website.</p>
+              <p className="mk-price">$5.99<span> / month</span></p>
+              <ul>
+                <li>Limited creations</li>
+                <li>All {templates.length} designs</li>
+                <li>Step-by-step lessons and code view</li>
+                <li>HTML export and backups</li>
+              </ul>
+              <Link className="mk-btn" href="/studio">Start building</Link>
+            </article>
+            <article className="mk-plan mk-plan-dark">
+              <h3>Unlimited</h3>
+              <p className="mk-plan-sub">For everything you want to make.</p>
+              <p className="mk-price">$15.99<span> / month</span></p>
+              <ul>
+                <li>Unlimited creations</li>
+                <li>Everything in Starter</li>
+                <li>New designs and tools as they launch</li>
+              </ul>
+              <Link className="mk-btn" href="/studio">Start building</Link>
+            </article>
+          </div>
+          <p className="mk-fineprint">Plans start at launch. Checkout is not open yet and no payment is collected on this site. Auvrantis Check is a separate product.</p>
+        </div>
       </section>
 
-      <Footer />
+      <section className="mk-section mk-section-mist mk-closing" aria-labelledby="closing-title">
+        <div className="mk-wrap">
+          <h2 id="closing-title">Make something good. Understand it too.</h2>
+          <Link className="mk-btn" href="/studio">Start building</Link>
+        </div>
+      </section>
+
+      <MkFooter />
     </main>
   );
 }
