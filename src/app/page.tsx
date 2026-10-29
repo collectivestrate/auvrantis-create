@@ -57,7 +57,7 @@ export default function Home() {
         <div className="hero-art" aria-label="Preview of an editable website design">
           <div className="art-caption">
             <span>YOUR IDEA, IN VIEW</span>
-            <span>001 / 006</span>
+            <span>001 / 012</span>
           </div>
           <div className="preview-sheet">
             <div className="preview-top">
@@ -112,7 +112,7 @@ export default function Home() {
         <div className="manifesto-aside">
           <span className="aside-sun">✳</span>
           <p>
-            Six distinct starting points.<br />One website that feels<br />like it came from you.
+            Twelve distinct starting points.<br />One website that feels<br />like it came from you.
           </p>
         </div>
       </section>

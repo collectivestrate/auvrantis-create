@@ -15,7 +15,7 @@ export default function OpenGraphImage() {
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <span style={{ fontFamily: 'monospace', fontSize: 16, letterSpacing: 2, marginBottom: 24 }}>A LITTLE GUIDANCE. A LOT OF ROOM.</span>
           <span style={{ fontSize: 86, lineHeight: 0.89, letterSpacing: -8, fontWeight: 800 }}>Make a good<br />website.</span>
-          <span style={{ marginTop: 27, fontSize: 24, lineHeight: 1.35, maxWidth: 660 }}>Six thoughtful starting designs. Your words, your work, your way.</span>
+          <span style={{ marginTop: 27, fontSize: 24, lineHeight: 1.35, maxWidth: 660 }}>Twelve thoughtful starting designs. Your words, your work, your way.</span>
         </div>
         <div style={{ borderTop: '2px solid #111827', paddingTop: 18, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 15, fontWeight: 700 }}>
           <span>auvrantis-create.vercel.app</span><span>BY AUVRANTIS GROUP</span>

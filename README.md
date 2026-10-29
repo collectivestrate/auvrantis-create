@@ -2,7 +2,7 @@
 
 **Website Builder** · planned hosting subscription: **$15.99/month**. Auvrantis Check is a separate planned **$15.99/month** product; both subscriptions would total $31.98/month before applicable taxes.
 
-Auvrantis Create is a local-first website builder with six hand-built designs, a named project library, a structured editor, safe JSON backups, and a self-contained HTML export. Starter layouts and text are deterministic, not AI-generated.
+Auvrantis Create is a local-first website builder with twelve hand-built designs, a named project library, a structured editor, safe JSON backups, and a self-contained HTML export. Starter layouts and text are deterministic, not AI-generated.
 
 ## Run locally
 
@@ -17,7 +17,7 @@ Open [http://localhost:3101](http://localhost:3101). Run checks with `npm test` 
 
 ## Working features
 
-- Six visibly distinct template presets and an industry-aware questionnaire with deterministic tone variations.
+- Twelve visibly distinct template presets and an industry-aware questionnaire with deterministic tone variations.
 - Project dashboard to create, open, rename, duplicate, and explicitly confirm deletion of local projects.
 - Existing `auvrantis-create:draft:v1` browser drafts migrate losslessly into the project library. Malformed project data is rejected with a recoverable fresh library; prior v1 data is left in browser storage.
 - Structured section editing for title, copy, visibility, order, colors, contact email, and page metadata. Add, duplicate, and delete section instances with unique IDs; at least one section must remain.
