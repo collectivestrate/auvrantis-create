@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import CodeLab from '@/components/code-lab';
 import { LessonDoneMark, ProgressSummary } from '@/components/learn-client';
+import { GlossarySearch } from '@/components/learn-tools';
 import { MkFooter, MkNav } from '@/components/mk-chrome';
 import { glossary, lessons, parts, totalMinutes } from '@/lib/learn-content';
 import { proCourses } from '@/lib/learn-pro';
@@ -90,14 +91,33 @@ export default function LearningCenter() {
             <h2 id="glossary-title">Words you will meet.</h2>
             <p>New to the web? Here is what the common terms mean, in plain English.</p>
           </div>
-          <dl className="lc-glossary">
-            {glossary.map((item) => (
-              <div key={item.term}>
-                <dt>{item.term}</dt>
-                <dd>{item.meaning}</dd>
-              </div>
-            ))}
-          </dl>
+          <GlossarySearch items={glossary} />
+        </div>
+      </section>
+
+      <section className="mk-section" aria-labelledby="tools-title">
+        <div className="mk-wrap">
+          <div className="mk-section-head">
+            <h2 id="tools-title">Tools to practice with.</h2>
+            <p>Try code without installing anything, and celebrate when you finish.</p>
+          </div>
+          <div className="lc-course-grid lc-tools-grid">
+            <Link className="lc-course lc-course-mist" href="/learn/playground">
+              <span className="lc-course-level">Practice</span>
+              <strong>Code playground</strong>
+              <span>Write HTML and CSS and see the result instantly, right in your browser.</span>
+            </Link>
+            <Link className="lc-course lc-course-mist" href="/learn/certificate">
+              <span className="lc-course-level">Finish</span>
+              <strong>Your certificate</strong>
+              <span>Complete all {lessons.length} lessons, then print a certificate with your name.</span>
+            </Link>
+            <Link className="lc-course lc-course-mist" href="/studio">
+              <span className="lc-course-level">Build</span>
+              <strong>The Studio</strong>
+              <span>Use what you learned to build a real site from one of twelve designs.</span>
+            </Link>
+          </div>
         </div>
       </section>
 
