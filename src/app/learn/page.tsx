@@ -4,6 +4,7 @@ import CodeLab from '@/components/code-lab';
 import { LessonDoneMark, ProgressSummary } from '@/components/learn-client';
 import { MkFooter, MkNav } from '@/components/mk-chrome';
 import { glossary, lessons, parts, totalMinutes } from '@/lib/learn-content';
+import { proCourses } from '@/lib/learn-pro';
 import './learn.css';
 
 export const metadata: Metadata = {
@@ -97,6 +98,29 @@ export default function LearningCenter() {
               </div>
             ))}
           </dl>
+        </div>
+      </section>
+
+      <section className="mk-section mk-section-dark" aria-labelledby="pro-title">
+        <div className="mk-wrap">
+          <div className="mk-section-head">
+            <p className="lc-kicker">Learning Center Pro</p>
+            <h2 id="pro-title">Ready for more?</h2>
+            <p>Three in-depth courses for the next step. Each one starts with a free lesson.</p>
+          </div>
+          <div className="lc-course-grid">
+            {proCourses.map((course) => (
+              <Link className="lc-course lc-course-dark" key={course.slug} href={`/learn/pro/${course.slug}`}>
+                <span className="lc-course-level">{course.level}</span>
+                <strong>{course.title}</strong>
+                <span>{course.tagline}</span>
+                <small>{course.lessons.length} lessons · first lesson free</small>
+              </Link>
+            ))}
+          </div>
+          <div className="mk-center">
+            <Link className="mk-btn mk-btn-light" href="/learn/pro">Explore Learning Center Pro</Link>
+          </div>
         </div>
       </section>
 
