@@ -1,116 +1,111 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import CodeLab from '@/components/code-lab';
+import { LessonDoneMark, ProgressSummary } from '@/components/learn-client';
 import { MkFooter, MkNav } from '@/components/mk-chrome';
+import { glossary, lessons, parts, totalMinutes } from '@/lib/learn-content';
+import './learn.css';
 
 export const metadata: Metadata = {
-  title: 'Learn to build a website — Auvrantis Create',
-  description: 'Short, plain-English lessons on how a website is made, with the real code beside each one.',
+  title: 'Learning Center — Auvrantis Create',
+  description: 'A free, step-by-step course on how to build a website: plan it, write the HTML and CSS, make it work on phones, and publish it.',
   alternates: { canonical: 'https://auvrantis-create.vercel.app/learn' },
 };
 
-const lessons = [
-  {
-    title: 'What a website is made of',
-    body: 'Every website is built from three languages. HTML says what is on the page. CSS says how it looks. JavaScript makes it respond to clicks and typing. A simple business site needs mostly HTML and CSS.',
-    code: `<!-- HTML: what is on the page -->
-<h1>Maple Street Bakery</h1>
+const hours = Math.round(totalMinutes / 60);
 
-/* CSS: how it looks */
-h1 { color: #1d1d1f; }`,
-  },
-  {
-    title: 'Write a headline people understand',
-    body: 'The h1 is the biggest line on your page. Say who you are and what you do in plain words. Use one h1 per page, so visitors and search engines know what the page is about.',
-    code: `<h1>Fresh bread in Chicago</h1>
-<p>Baked every morning on Maple Street.</p>`,
-  },
-  {
-    title: 'Choose color and type',
-    body: 'CSS properties are like labels on a form. color is the text color, background is what is behind it, and font-family picks the letters. Pick one accent color and use it for links and buttons.',
-    code: `body {
-  color: #1d1d1f;
-  background: #ffffff;
-  font-family: system-ui, sans-serif;
-}
-
-a {
-  color: #2d45ff;
-}`,
-  },
-  {
-    title: 'Add sections and a way to reach you',
-    body: 'A section groups a heading with its text. The order in your code is the order on the page. For contact, a mailto link opens the visitor’s email app, so you do not need a form to get started.',
-    code: `<section>
-  <h2>Our bread</h2>
-  <p>Sourdough, rye and seeded loaves.</p>
-</section>
-
-<a href="mailto:hello@example.com">
-  Email us
-</a>`,
-  },
-  {
-    title: 'Help nearby customers find you',
-    body: 'The title and description are what people see in search results. Put your business, what you do and your city in them in natural words. Good descriptions help people choose you, but no one can promise a ranking.',
-    code: `<title>Maple Street Bakery — Chicago</title>
-<meta
-  name="description"
-  content="Fresh bread and pastries in Chicago."
-/>`,
-  },
-  {
-    title: 'Put it online',
-    body: 'Export your site from the Studio as one HTML file. Upload it to any web host, then point your own domain name at it. To change it later, edit and export again, or open the file in any editor or assistant.',
-    code: `my-site/
-  index.html   <- your exported page
-  logo.png     <- optional images`,
-  },
-];
-
-export default function Learn() {
+export default function LearningCenter() {
+  const first = lessons[0];
   return (
     <main className="mk">
       <MkNav />
 
-      <section className="mk-hero">
+      <section className="mk-hero lc-hero">
         <div className="mk-wrap">
-          <h1>Learn how a website works.</h1>
-          <p>Six short lessons in plain English. Each one shows the real code, and each one you can try in the Studio.</p>
+          <p className="lc-kicker">Auvrantis Create Learning Center</p>
+          <h1>Welcome. Let’s build your website.</h1>
+          <p>A friendly, step-by-step course for complete beginners. Plan your site, write real HTML and CSS, make it work on every phone, and put it online. No experience needed.</p>
           <div className="mk-hero-actions">
-            <Link className="mk-btn" href="/studio">Open the Studio</Link>
+            <Link className="mk-btn" href={`/learn/${first.slug}`}>Start the course</Link>
+            <Link className="mk-btn mk-btn-ghost" href="/studio">Or build in the Studio</Link>
+          </div>
+          <ul className="lc-facts" aria-label="About this course">
+            <li><strong>{lessons.length}</strong> lessons</li>
+            <li><strong>About {hours}</strong> hours</li>
+            <li><strong>{parts.length}</strong> parts</li>
+            <li><strong>Free</strong> to learn</li>
+          </ul>
+        </div>
+      </section>
+
+      <section className="mk-section mk-section-mist" aria-labelledby="course-title">
+        <div className="mk-wrap">
+          <div className="mk-section-head">
+            <h2 id="course-title">Build your first website, step by step.</h2>
+            <p>Every lesson builds the same real example, a website for a neighborhood bakery, so you always see how each piece fits.</p>
+          </div>
+          <ProgressSummary slugs={lessons.map((lesson) => lesson.slug)} />
+          <div className="lc-parts">
+            {parts.map((part, partIndex) => (
+              <section className="lc-part" key={part.id} aria-labelledby={`part-${part.id}`}>
+                <div className="lc-part-head">
+                  <span className="lc-part-num">Part {partIndex + 1}</span>
+                  <h3 id={`part-${part.id}`}>{part.title}</h3>
+                  <p>{part.description}</p>
+                </div>
+                <ol className="lc-cards">
+                  {lessons.map((lesson, index) => lesson.part !== part.id ? null : (
+                    <li key={lesson.slug}>
+                      <Link className="lc-card" href={`/learn/${lesson.slug}`}>
+                        <span className="lc-card-num">{index + 1}</span>
+                        <span className="lc-card-body">
+                          <strong>{lesson.title}</strong>
+                          <span>{lesson.summary}</span>
+                          <small>{lesson.minutes} min <LessonDoneMark slug={lesson.slug} /></small>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+            ))}
           </div>
         </div>
       </section>
 
-      <section className="mk-section mk-section-mist" aria-labelledby="try-title">
+      <section className="mk-section" aria-labelledby="try-title">
         <div className="mk-wrap">
           <div className="mk-section-head">
-            <h2 id="try-title">Try it first.</h2>
-            <p>Change the details and watch the page and its code update together.</p>
+            <h2 id="try-title">Try it before you start.</h2>
+            <p>Change the details and watch the page and its code update together. This is the same HTML you will write in the course.</p>
           </div>
           <CodeLab />
         </div>
       </section>
 
-      <section className="mk-section" aria-labelledby="lessons-title">
+      <section className="mk-section mk-section-mist" aria-labelledby="glossary-title">
         <div className="mk-wrap">
           <div className="mk-section-head">
-            <h2 id="lessons-title">The lessons</h2>
-            <p>Take them in order, or jump to what you need.</p>
+            <h2 id="glossary-title">Words you will meet.</h2>
+            <p>New to the web? Here is what the common terms mean, in plain English.</p>
           </div>
-          <div className="mk-lessons">
-            {lessons.map((lesson, index) => (
-              <article className="mk-lesson" key={lesson.title}>
-                <div>
-                  <span className="mk-lesson-num" aria-hidden>{index + 1}</span>
-                  <h2>{lesson.title}</h2>
-                  <p>{lesson.body}</p>
-                  <Link className="mk-lesson-try" href="/studio">Try it in the Studio</Link>
-                </div>
-                <pre tabIndex={0} aria-label={`Code for lesson ${index + 1}`}><code>{lesson.code}</code></pre>
-              </article>
+          <dl className="lc-glossary">
+            {glossary.map((item) => (
+              <div key={item.term}>
+                <dt>{item.term}</dt>
+                <dd>{item.meaning}</dd>
+              </div>
             ))}
+          </dl>
+        </div>
+      </section>
+
+      <section className="mk-section mk-closing" aria-labelledby="closing-title">
+        <div className="mk-wrap">
+          <h2 id="closing-title">Your website starts with one lesson.</h2>
+          <div className="mk-hero-actions">
+            <Link className="mk-btn" href={`/learn/${first.slug}`}>Start lesson 1</Link>
+            <Link className="mk-btn mk-btn-ghost" href="/learn/the-complete-code">See the finished code</Link>
           </div>
         </div>
       </section>

@@ -1,0 +1,121 @@
+/* Learning Center (/learn and /learn/[slug]). Uses the black, white and blue
+   palette from marketing.css; every class is prefixed lc- and scoped to .mk. */
+
+.mk .lc-kicker { font-size: 14px; font-weight: 600; letter-spacing: 0.02em; color: var(--mk-blue); margin-bottom: 16px; }
+.mk code { font: 0.88em var(--mk-mono); background: var(--mk-mist); border-radius: 6px; padding: 0.1em 0.35em; }
+.mk pre code { font: inherit; background: none; border-radius: 0; padding: 0; }
+
+/* Hub hero */
+.mk .lc-hero h1 { max-width: 15ch; }
+.mk .lc-hero > .mk-wrap > p:not(.lc-kicker) { max-width: 34em; }
+.mk .lc-facts { list-style: none; display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; padding: 0; margin: 48px 0 0; }
+.mk .lc-facts li { padding: 10px 20px; border: 1px solid var(--mk-line); border-radius: 980px; font-size: 15px; color: var(--mk-mute); }
+.mk .lc-facts strong { color: var(--mk-ink); }
+
+/* Progress */
+.mk .lc-progress { display: flex; align-items: center; gap: 24px; max-width: 880px; margin: 0 auto 56px; padding: 20px 28px; background: #fff; border-radius: 20px; }
+.mk .lc-progress-text { display: grid; flex: none; }
+.mk .lc-progress-text span { font-size: 14px; color: var(--mk-mute); }
+.mk .lc-progress-bar { flex: 1; height: 8px; border-radius: 980px; background: var(--mk-mist); overflow: hidden; }
+.mk .lc-progress-bar i { display: block; height: 100%; background: var(--mk-blue); border-radius: 980px; transition: width 0.3s; }
+
+/* Course parts and lesson cards */
+.mk .lc-parts { display: grid; gap: 56px; max-width: 880px; margin: 0 auto; }
+.mk .lc-part-head { margin-bottom: 20px; }
+.mk .lc-part-num { display: block; font-size: 14px; font-weight: 600; color: var(--mk-blue); margin-bottom: 4px; }
+.mk .lc-part-head h3 { font-size: 32px; letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 6px; }
+.mk .lc-part-head p { color: var(--mk-mute); margin: 0; }
+.mk .lc-cards { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.mk .lc-card { display: flex; gap: 20px; align-items: flex-start; padding: 24px 28px; background: #fff; border-radius: 20px; border: 1px solid transparent; transition: border-color 0.15s, transform 0.15s; }
+.mk .lc-card:hover { border-color: var(--mk-blue); transform: translateY(-2px); }
+.mk .lc-card-num { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: var(--mk-ink); color: #fff; font-weight: 600; font-size: 15px; }
+.mk .lc-card-body { display: grid; gap: 4px; }
+.mk .lc-card-body strong { font-size: 20px; letter-spacing: -0.01em; }
+.mk .lc-card-body > span { color: var(--mk-mute); font-size: 16px; }
+.mk .lc-card-body small { font-size: 14px; color: var(--mk-mute); display: flex; align-items: center; gap: 10px; }
+.mk .lc-done-mark { display: inline-block; font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 980px; background: var(--mk-blue); color: #fff; }
+
+/* Glossary */
+.mk .lc-glossary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 0; }
+.mk .lc-glossary div { background: #fff; border-radius: 20px; padding: 24px; }
+.mk .lc-glossary dt { font-weight: 700; margin-bottom: 6px; }
+.mk .lc-glossary dd { margin: 0; color: var(--mk-mute); font-size: 16px; }
+
+/* Lesson page layout */
+.mk .lc-layout { display: grid; grid-template-columns: 260px minmax(0, 1fr); gap: 64px; padding: 56px 0 120px; }
+.mk .lc-outline { position: sticky; top: 88px; align-self: start; max-height: calc(100vh - 112px); overflow: auto; font-size: 14px; padding-right: 8px; }
+.mk .lc-outline-home { display: inline-block; font-weight: 600; color: var(--mk-blue); margin-bottom: 24px; }
+.mk .lc-outline-part { font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--mk-mute); margin: 20px 0 8px; }
+.mk .lc-outline ol { list-style: none; padding: 0; margin: 0; display: grid; gap: 2px; }
+.mk .lc-outline a { display: flex; gap: 10px; align-items: baseline; padding: 7px 10px; border-radius: 10px; color: var(--mk-ink); line-height: 1.35; }
+.mk .lc-outline a:hover { background: var(--mk-mist); }
+.mk .lc-outline a span { color: var(--mk-mute); font-variant-numeric: tabular-nums; min-width: 1.4em; }
+.mk .lc-outline a[aria-current='page'] { background: var(--mk-ink); color: #fff; }
+.mk .lc-outline a[aria-current='page'] span { color: #a1a1a6; }
+.mk .lc-outline .lc-done-mark { margin-left: auto; padding: 0 8px; font-size: 11px; }
+
+.mk .lc-lesson { max-width: 760px; min-width: 0; }
+.mk .lc-crumbs { display: flex; flex-wrap: wrap; gap: 8px; font-size: 14px; color: var(--mk-mute); margin-bottom: 40px; }
+.mk .lc-crumbs a { color: var(--mk-blue); }
+.mk .lc-lesson-head { margin-bottom: 40px; }
+.mk .lc-lesson-head h1 { font-size: clamp(40px, 6vw, 64px); line-height: 1.05; letter-spacing: -0.04em; margin-bottom: 16px; }
+.mk .lc-lesson-head > p:last-child { font-size: 21px; line-height: 1.45; color: var(--mk-mute); margin: 0; }
+
+.mk .lc-box { background: var(--mk-mist); border-radius: 24px; padding: 32px 36px; margin-bottom: 56px; }
+.mk .lc-box h2 { font-size: 22px; letter-spacing: -0.02em; margin-bottom: 16px; }
+.mk .lc-box-dark { background: #000; color: #f5f5f7; margin: 64px 0 40px; }
+.mk .lc-box-dark .lc-ticks li::before { border-color: #8d9bff; }
+.mk .lc-box-dark code { background: rgba(255, 255, 255, 0.14); }
+.mk .lc-ticks { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+.mk .lc-ticks li { position: relative; padding-left: 30px; }
+.mk .lc-ticks li::before { content: ''; position: absolute; left: 6px; top: 6px; width: 6px; height: 12px; border: solid var(--mk-blue); border-width: 0 2px 2px 0; transform: rotate(40deg); }
+
+/* Steps */
+.mk .lc-steps { list-style: none; padding: 0; margin: 0; display: grid; gap: 56px; }
+.mk .lc-step h2 { display: flex; gap: 16px; align-items: center; font-size: 28px; line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 16px; }
+.mk .lc-step-num { flex: none; display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: var(--mk-blue); color: #fff; font-size: 16px; font-weight: 700; letter-spacing: 0; }
+.mk .lc-step > p { font-size: 18px; line-height: 1.65; }
+.mk .lc-tip { background: #fff; border: 1px solid var(--mk-line); border-left: 4px solid var(--mk-blue); border-radius: 12px; padding: 16px 20px; color: var(--mk-ink); font-size: 16px !important; }
+.mk .lc-tip strong { color: var(--mk-blue); margin-right: 6px; }
+
+/* Code blocks */
+.mk .lc-code { margin: 24px 0; border-radius: 18px; overflow: hidden; background: #111; }
+.mk .lc-code figcaption { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px 10px 20px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); color: #a1a1a6; font: 500 13px var(--mk-mono); }
+.mk .lc-code pre { margin: 0; padding: 20px; overflow: auto; color: #f5f5f7; font: 14px/1.7 var(--mk-mono); max-height: 640px; }
+.mk .lc-code pre code { background: none; padding: 0; border-radius: 0; font: inherit; }
+.mk .lc-copy { border: 0; border-radius: 8px; background: rgba(255, 255, 255, 0.12); color: #fff; font: 600 13px/1 'Mona Sans', -apple-system, sans-serif; padding: 8px 14px; cursor: pointer; }
+.mk .lc-copy:hover { background: var(--mk-blue); }
+
+/* Mistakes */
+.mk .lc-section { margin-top: 64px; }
+.mk .lc-section > h2 { font-size: 28px; letter-spacing: -0.025em; margin-bottom: 20px; }
+.mk .lc-mistakes { display: grid; gap: 12px; margin: 0; }
+.mk .lc-mistakes div { border: 1px solid var(--mk-line); border-radius: 18px; padding: 20px 24px; }
+.mk .lc-mistakes dt { font-weight: 700; margin-bottom: 6px; }
+.mk .lc-mistakes dd { margin: 0; color: var(--mk-mute); }
+
+/* Complete button and pager */
+.mk .lc-complete { margin-top: 28px; cursor: pointer; }
+.mk .lc-complete-done { background: #fff; color: var(--mk-ink); }
+.mk .lc-complete-done:hover { background: #e8e8ed; }
+.mk .lc-pager { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.mk .lc-pager-link { display: grid; gap: 4px; padding: 20px 24px; border: 1px solid var(--mk-line); border-radius: 18px; transition: border-color 0.15s; }
+.mk .lc-pager-link:hover { border-color: var(--mk-blue); }
+.mk .lc-pager-link small { font-size: 14px; color: var(--mk-mute); }
+.mk .lc-pager-link strong { color: var(--mk-blue); font-size: 18px; }
+.mk .lc-pager-next { text-align: right; }
+
+@media (max-width: 900px) {
+  .mk .lc-glossary { grid-template-columns: 1fr 1fr; }
+  .mk .lc-layout { grid-template-columns: minmax(0, 1fr); gap: 0; padding-top: 32px; }
+  .mk .lc-outline { display: none; }
+  .mk .lc-progress { flex-direction: column; align-items: stretch; gap: 12px; }
+}
+@media (max-width: 600px) {
+  .mk .lc-glossary, .mk .lc-pager { grid-template-columns: 1fr; }
+  .mk .lc-pager-next { text-align: left; }
+  .mk .lc-card { padding: 20px; gap: 16px; }
+  .mk .lc-box { padding: 24px; }
+  .mk .lc-step h2 { font-size: 23px; align-items: flex-start; }
+  .mk .lc-step-num { width: 34px; height: 34px; font-size: 15px; }
+}
