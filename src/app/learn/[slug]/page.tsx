@@ -2,9 +2,11 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { CopyCodeButton, LessonDoneMark, MarkCompleteButton } from '@/components/learn-client';
+import { LessonQuiz } from '@/components/learn-tools';
 import { MkFooter, MkNav } from '@/components/mk-chrome';
 import { RichText } from '@/components/rich-text';
 import { getLesson, getLessonNeighbors, lessonNumber, lessons, parts } from '@/lib/learn-content';
+import { quizzes } from '@/lib/learn-quizzes';
 import '../learn.css';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -110,6 +112,8 @@ export default async function LessonPage({ params }: Props) {
               </dl>
             </section>
           ) : null}
+
+          {quizzes[lesson.slug] ? <LessonQuiz questions={quizzes[lesson.slug]} /> : null}
 
           <section className="lc-box lc-box-dark" aria-labelledby="checklist-title">
             <h2 id="checklist-title">Before you move on</h2>
