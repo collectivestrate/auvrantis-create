@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/',
     '/learn',
     ...lessons.map((lesson) => `/learn/${lesson.slug}`),
+    '/learn/playground',
     '/learn/pro',
     ...proCourses.flatMap((course) => [`/learn/pro/${course.slug}`, ...course.lessons.map((lesson) => `/learn/pro/${course.slug}/${lesson.slug}`)]),
     '/guide',
