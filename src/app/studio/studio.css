@@ -493,14 +493,6 @@ html[data-theme="dark"] .studio-root .settings-saved{background:#1f2937;border-c
 .studio-root .settings-check{display:flex;gap:8px;align-items:center;font-size:13px;margin:8px 0}
 .studio-root .settings-saved{padding:12px;border:1px solid #c9c7be;background:#edf0ff;font-size:11px!important}
 .studio-root{--ai-cobalt:#2448ff}
-.studio-root .ai-planner{margin-top:26px;padding:16px;border:2px solid var(--ink);background:var(--paper)}
-.studio-root .ai-planner-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
-.studio-root .ai-planner h2{font-size:24px;line-height:.95;letter-spacing:-.06em;margin:0 0 10px}
-.studio-root .ai-planner>p{font-size:12px;line-height:1.45}
-.studio-root .ai-pill{font:9px var(--mono);border:1px solid var(--ink);padding:5px 7px}
-.studio-root .ai-planner form{display:grid;gap:8px}
-.studio-root .ai-planner textarea{min-height:94px;resize:vertical;padding:10px;border:1px solid var(--ink);font:12px var(--disp);background:var(--paper);color:var(--ink)}
-.studio-root .ai-message{padding:10px;background:#edf0ff;border:1px solid var(--ink);font-size:11px}
 .studio-root .ai-plan-preview{display:grid;gap:9px;margin-top:14px;padding:12px;border:1px solid var(--ink)}
 .studio-root .ai-plan-theme{display:flex;justify-content:space-between;align-items:center;padding:12px;border:1px solid currentColor}
 .studio-root .ai-plan-theme span{padding:5px 7px;color:#111827;font:9px var(--mono)}
@@ -542,3 +534,38 @@ html[data-theme="dark"] .studio-root .settings-saved{background:#1f2937;border-c
 .studio-root .marketing-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
 
 .studio-root{min-height:100vh}
+
+/* Auvrantis AI panel */
+.studio-root .copilot{margin:18px 0 26px;padding:16px;border:var(--line);background:var(--paper);box-shadow:4px 4px 0 var(--ink)}
+.studio-root .copilot-head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+.studio-root .copilot h2{font-size:24px;line-height:.95;letter-spacing:-.06em;margin:4px 0 12px}
+.studio-root .copilot p{font-size:12px;line-height:1.5;margin:0 0 10px}
+.studio-root .copilot-balance{flex:none;border:1px solid var(--ink);background:var(--lime);color:#111827;padding:6px 9px;font:10px var(--mono);white-space:nowrap}
+.studio-root .copilot-balance b{font:600 13px var(--display)}
+.studio-root .copilot-note{padding:10px;border:1px dashed var(--ink)}
+.studio-root .copilot-signin{display:grid;gap:8px}
+.studio-root .copilot-tabs{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--ink);margin-bottom:12px}
+.studio-root .copilot-tabs button{border:0;border-right:1px solid var(--ink);background:transparent;padding:9px 4px;font:10px/1.2 var(--mono);text-align:center}
+.studio-root .copilot-tabs button:last-child{border-right:0}
+.studio-root .copilot-tabs button[aria-selected='true']{background:var(--ink);color:var(--paper)}
+.studio-root .copilot-body{display:grid;gap:8px}
+.studio-root .copilot-body input,.studio-root .copilot-body textarea{width:100%;padding:10px;border:1px solid var(--ink);background:var(--paper);color:var(--ink);font-size:13px}
+.studio-root .copilot-body textarea{min-height:88px;resize:vertical}
+.studio-root .copilot .button.small{justify-content:center;min-height:44px;font-size:12px}
+.studio-root .copilot .button:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:4px 4px 0 var(--ink)}
+.studio-root .copilot-price{margin-top:10px !important;font:10px/1.5 var(--mono) !important;opacity:.75}
+.studio-root .copilot-receipt{padding:9px 10px;border-left:4px solid var(--blue);background:color-mix(in srgb,var(--blue) 8%,var(--paper))}
+.studio-root .copilot-notice{padding:9px 10px;border:1px solid var(--ink);margin-top:10px !important}
+.studio-root .copilot-notice.ok{background:color-mix(in srgb,var(--lime) 35%,var(--paper))}
+.studio-root .copilot-notice.warn{background:color-mix(in srgb,var(--coral) 18%,var(--paper))}
+.studio-root .copilot-packs{display:grid;gap:6px;margin-top:10px}
+.studio-root .copilot-packs b{font-size:12px}
+.studio-root .copilot-packs button{display:flex;justify-content:space-between;align-items:center;border:1px solid var(--ink);background:transparent;padding:9px 10px;text-align:left}
+.studio-root .copilot-packs button:hover{background:var(--lime);color:#111827}
+.studio-root .copilot-packs button small{display:block;font:10px var(--mono);opacity:.7}
+.studio-root .copilot-ledger{border:1px solid var(--ink);padding:10px;margin-bottom:12px;font-size:12px}
+.studio-root .copilot-ledger ul{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:6px}
+.studio-root .copilot-ledger li{display:flex;justify-content:space-between;gap:10px}
+.studio-root .copilot-ledger li small{display:block;font:10px var(--mono);opacity:.65}
+.studio-root .copilot-ledger .minus{font-variant-numeric:tabular-nums}
+.studio-root .copilot-ledger .plus{font-variant-numeric:tabular-nums;color:#0b7a33}

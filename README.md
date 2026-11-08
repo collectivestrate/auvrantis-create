@@ -4,6 +4,29 @@
 
 Auvrantis Create is a local-first website builder with twelve hand-built designs, a named project library, a structured editor, safe JSON backups, and a self-contained HTML export. Starter layouts and text are deterministic, not AI-generated.
 
+## Pay-per-token AI
+
+AI in the Studio is sold by usage, not by subscription. 1 credit = 1¢.
+
+- **Write my site** writes headlines and text for every section; **Rewrite section** follows an instruction; **Plan from an idea** suggests pages, sections and a palette.
+- Every run is quoted first (typical and maximum price). The server reserves the maximum, calls the model, then settles at the provider's real token usage × `AI_MARKUP`. Failed runs and output that fails validation are settled at zero.
+- Price per run = (input tokens × input rate + output tokens × output rate) × markup, rounded up to the millicredit, never below `AI_MIN_CHARGE_CREDITS`.
+- Credit packs (Spark $10 / 1,000, Studio $25 / 2,750, Agency $60 / 7,200) are one-time Stripe Checkout payments. Credits are added only by the signed webhook, once per Checkout Session, and only when the paid amount matches the pack.
+- New accounts get `AI_SIGNUP_CREDITS` (default 25) once.
+
+### Turning it on
+
+1. Run `migrations/003_ai_credits.sql` in the Supabase SQL editor (after 001 and 002).
+2. In Vercel, set server-only variables:
+   - `OPENAI_API_KEY` (or `ANTHROPIC_API_KEY` with `AI_PROVIDER=anthropic`) and `AUVRANTIS_AI_MODEL`
+   - `AI_PRICE_INPUT_PER_MTOK` and `AI_PRICE_OUTPUT_PER_MTOK`: your provider's USD price per million tokens for that model. AI stays closed until both are set, so it can never run unpriced.
+   - Optional: `AI_MARKUP` (default 4, minimum 1.5), `AI_MIN_CHARGE_CREDITS` (default 1), `AI_SIGNUP_CREDITS` (default 25)
+   - `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` for credit packs
+3. Point a Stripe webhook at `/api/learn/webhook` with `checkout.session.completed` and `checkout.session.async_payment_succeeded` (plus the subscription events if Learning Center Pro is on).
+4. Redeploy. `/api/ai/status` reports `configured: true` when everything is in place.
+
+At the default 4× markup, gross margin on AI after card fees is about 67–69% on every pack (see `packMargin` in `src/lib/ai-billing.ts`).
+
 ## Run locally
 
 Requires Node.js 20.9 or newer.

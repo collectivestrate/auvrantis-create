@@ -98,28 +98,9 @@
 .mk-lab-notes dt code { font: 600 14px var(--mk-mono); color: var(--mk-blue); }
 .mk-lab-notes dd { margin: 6px 0 0; color: var(--mk-mute); font-size: 15px; }
 
-/* Feature trio */
-.mk-trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.mk-trio article { background: #fff; border-radius: 24px; padding: 36px 32px 40px; }
-.mk-trio h3 { font-size: 24px; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 10px; }
-.mk-trio p { color: var(--mk-mute); margin: 0; }
 
-/* Designs */
-.mk-designs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-.mk-design { display: block; background: var(--mk-mist); border-radius: 20px; padding: 14px 14px 20px; transition: transform 0.2s; }
-.mk-design:hover { transform: translateY(-3px); }
-.mk-design-swatch { height: 112px; border-radius: 12px; margin-bottom: 16px; border: 1px solid rgba(0, 0, 0, 0.06); }
-.mk-design h3 { font-size: 17px; margin: 0 4px 2px; letter-spacing: -0.01em; }
-.mk-design p { font-size: 14px; color: var(--mk-mute); margin: 0 4px; }
 .mk-center { text-align: center; margin-top: 48px; }
 
-/* Cloud / integrations */
-.mk-ways { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.mk-ways article { background: #1d1d1f; border-radius: 24px; padding: 36px 32px 40px; }
-.mk-ways h3 { font-size: 24px; line-height: 1.15; letter-spacing: -0.02em; margin: 14px 0 10px; color: #fff; }
-.mk-ways p { color: #a1a1a6; margin: 0; }
-.mk-status { display: inline-block; font-size: 13px; font-weight: 600; padding: 4px 12px; border-radius: 980px; background: rgba(255, 255, 255, 0.12); color: #f5f5f7; }
-.mk-status-live { background: #d4f4dd; color: #0b5a23; }
 
 /* Pricing */
 .mk-plans { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; max-width: 820px; margin: 0 auto; }
@@ -171,8 +152,7 @@
 
 @media (max-width: 900px) {
   .mk-section { padding: 80px 0; }
-  .mk-designs { grid-template-columns: repeat(2, 1fr); }
-  .mk-trio, .mk-ways, .mk-lab-notes { grid-template-columns: 1fr; }
+  .mk-lab-notes { grid-template-columns: 1fr; }
   .mk-lab-fields { grid-template-columns: 1fr; }
   .mk-lab-stage, .mk-lesson, .mk-plans { grid-template-columns: 1fr; }
   .mk-lesson { padding: 32px 24px; gap: 24px; }

@@ -54,6 +54,13 @@
 - Industry filters
 - Card shows name, category, preview
 
+## Home page (Nov 2026)
+- Thesis: price before you press. AI writes inside human-made designs; you pay per word.
+- Committed color: ultramarine #2D45FF owns the hero and closing band; secondary text on blue is #DFE4FF.
+- Recurring object: the printed receipt (tokens in, tokens out, charged). Figures use tabular numerals; monospace only for measured values.
+- Sections: hero with live build demo → contrast table → priced menu with dotted leaders → design thumbnails → code lab → credit packs + live cost calculator → closing band.
+- Prices on the page come from the configured rates at build time; without rates the page shows no figures.
+
 ## Signature Moment
 Live build demo in home hero: sentence types into prompt bar ("A plant shop in Chicago with weekend workshops"), real website assembles inside device frame (layout, words, palette, image placeholders) and settles. Built from actual template engine, no network. Smooth, starts after first paint, minimal JS, static frame fallback for reduced motion.
 

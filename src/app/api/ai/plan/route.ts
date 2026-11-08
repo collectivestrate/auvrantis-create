@@ -1,3 +1,13 @@
-import { NextResponse } from 'next/server';
-import { generateAiSitePlan, hashSafetyId, validatePrompt } from '@/lib/ai-provider';
-export async function POST(request: Request) { try { const body = await request.json() as { prompt?: unknown; safetyId?: unknown }; const prompt = validatePrompt(body.prompt); const safetyId = typeof body.safetyId === 'string' && body.safetyId.length <= 160 ? body.safetyId : 'anonymous-session'; const plan = await generateAiSitePlan(prompt, hashSafetyId(safetyId)); return NextResponse.json({ plan }); } catch (error) { const code = error instanceof Error ? error.message : 'ai_provider_error'; const status = code === 'ai_unavailable' ? 503 : code === 'prompt_invalid' ? 400 : code === 'ai_rate_limited' ? 429 : 502; return NextResponse.json({ error: { code, message: code === 'ai_unavailable' ? 'AI planning is not configured yet. You can still build locally.' : code === 'prompt_invalid' ? 'Enter a shorter website description without control characters.' : 'The AI planner could not finish. Your current draft is unchanged.' } }, { status }); } }
+import { readJson, isObject } from '@/lib/cloud/server';
+import { generateAiSitePlan, validatePrompt } from '@/lib/ai-provider';
+import { aiError, runMetered } from '@/lib/ai-metered';
+
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+export async function POST(req: Request) {
+  const body = await readJson(req);
+  let prompt: string;
+  try { prompt = validatePrompt(isObject(body) ? body.prompt : null); } catch { return aiError('prompt_invalid'); }
+  return runMetered(req, 'plan', prompt, (safetyId) => generateAiSitePlan(prompt, safetyId));
+}

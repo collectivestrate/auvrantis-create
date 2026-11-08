@@ -34,6 +34,18 @@ export function stripeConfig() {
   return { secret, webhook, prices: prices as Record<Plan, string> };
 }
 
+/** Stripe keys alone, enough for one-time credit purchases (no subscription prices needed). */
+export function stripeBase() {
+  const secret = process.env.STRIPE_SECRET_KEY;
+  const webhook = process.env.STRIPE_WEBHOOK_SECRET;
+  return secret && webhook ? { secret, webhook } : null;
+}
+
+/** AI credit packs can be bought once Stripe and the account database are both connected. */
+export function creditsCheckoutOpen() {
+  return !!stripeBase() && !!cloudConfig();
+}
+
 export function billingConfigured() {
   return !!stripeConfig() && !!cloudConfig();
 }
@@ -70,7 +82,7 @@ export function requestFromCookies(cookieHeader: string | null) {
 }
 
 export async function stripe(path: string, params?: Record<string, string>, method: 'GET' | 'POST' = 'POST') {
-  const c = stripeConfig();
+  const c = stripeBase();
   if (!c) throw new Error('stripe_unconfigured');
   const res = await fetch(`https://api.stripe.com/v1${path}`, {
     method,
