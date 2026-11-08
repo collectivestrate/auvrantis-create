@@ -1,33 +1,25 @@
 import { ImageResponse } from 'next/og';
 
-export const alt = 'Auvrantis Create — Website Builder';
+export const alt = 'Auvrantis Create — a website that sounds like your business, priced by the word';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
 export default function OpenGraphImage() {
   return new ImageResponse(
-    <div style={{ width: '100%', height: '100%', display: 'flex', position: 'relative', overflow: 'hidden', background: '#FFFDF7', color: '#111827', fontFamily: 'Arial, sans-serif' }}>
-      <div style={{ width: '72%', height: '100%', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', padding: '56px 68px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12, fontSize: 22, fontWeight: 800, letterSpacing: '-1px' }}>
-          <span>AUVRANTIS</span><span style={{ color: '#2448FF' }}>CREATE</span>
-          <span style={{ fontSize: 12, letterSpacing: 2, fontWeight: 500, marginLeft: 6 }}>WEBSITE BUILDER</span>
-        </div>
+    <div style={{ width: '100%', height: '100%', display: 'flex', background: '#2D45FF', color: '#FFFFFF', fontFamily: 'Arial, sans-serif', padding: '64px 72px', position: 'relative' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '62%' }}>
+        <div style={{ display: 'flex', fontSize: 26, fontWeight: 700, letterSpacing: -0.5 }}>Auvrantis<span style={{ color: '#DFE4FF', fontWeight: 400, marginLeft: 8 }}>Create</span></div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <span style={{ fontFamily: 'monospace', fontSize: 16, letterSpacing: 2, marginBottom: 24 }}>A LITTLE GUIDANCE. A LOT OF ROOM.</span>
-          <span style={{ fontSize: 86, lineHeight: 0.89, letterSpacing: -8, fontWeight: 800 }}>Make a good<br />website.</span>
-          <span style={{ marginTop: 27, fontSize: 24, lineHeight: 1.35, maxWidth: 660 }}>Twelve thoughtful starting designs. Your words, your work, your way.</span>
+          <span style={{ fontSize: 72, lineHeight: 1.02, letterSpacing: -3, fontWeight: 700 }}>A website that sounds like your business.</span>
+          <span style={{ marginTop: 22, fontSize: 34, color: '#DFE4FF', fontWeight: 700 }}>Priced by the word.</span>
         </div>
-        <div style={{ borderTop: '2px solid #111827', paddingTop: 18, display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: 15, fontWeight: 700 }}>
-          <span>auvrantis-create.vercel.app</span><span>BY AUVRANTIS GROUP</span>
-        </div>
+        <span style={{ fontSize: 20, color: '#DFE4FF' }}>No subscription · Price shown before every run · Failed runs are free</span>
       </div>
-      <div style={{ width: '28%', height: '100%', background: '#2448FF', borderLeft: '2px solid #111827', position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ position: 'absolute', width: 260, height: 260, borderRadius: 999, background: '#D7FF3F', border: '3px solid #111827', right: -35, top: 45 }} />
-        <div style={{ position: 'relative', width: 235, minHeight: 310, background: '#FFFDF7', border: '3px solid #111827', boxShadow: '10px 10px 0 #111827', padding: 20, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', transform: 'rotate(-5deg)' }}>
-          <div style={{ borderBottom: '2px solid #111827', paddingBottom: 10, display: 'flex', justifyContent: 'space-between', fontSize: 11, fontWeight: 800 }}><span>YOUR WEBSITE</span><span>↗</span></div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}><span style={{ fontFamily: 'monospace', fontSize: 10 }}>INDEPENDENT WORK</span><span style={{ fontSize: 34, lineHeight: 0.95, letterSpacing: -2, fontWeight: 800 }}>Make room<br />for good work.</span><span style={{ width: 130, background: '#D7FF3F', border: '2px solid #111827', padding: 9, fontSize: 9, fontWeight: 800 }}>EXPLORE ↗</span></div>
-          <div style={{ fontFamily: 'monospace', fontSize: 9 }}>A FIRST DRAFT, SHAPED BY YOU</div>
-        </div>
+      <div style={{ position: 'absolute', right: 72, top: 150, width: 300, display: 'flex', flexDirection: 'column', background: '#FFFFFF', color: '#1D1D1F', padding: '26px 28px', borderRadius: 6, transform: 'rotate(-3deg)', fontSize: 22 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10 }}><span>Write my site</span><span>Done</span></div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 10, color: '#6E6E73' }}><span>Tokens in</span><span>1,486</span></div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16, color: '#6E6E73' }}><span>Tokens out</span><span>912</span></div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', borderTop: '2px dashed #C7C7CC', paddingTop: 14, fontWeight: 700 }}><span>You pay for</span><span style={{ color: '#2D45FF' }}>what ran</span></div>
       </div>
     </div>,
     { ...size },
