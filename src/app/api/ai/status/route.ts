@@ -1,15 +1,12 @@
 import { NextResponse } from 'next/server';
+import { aiAvailability } from '@/lib/ai-metered';
+import { providerConfig } from '@/lib/ai-provider';
 
 export async function GET() {
-  const openAiKey = process.env.OPENAI_API_KEY;
+  const availability = aiAvailability();
   return NextResponse.json({
-    configured: Boolean(openAiKey),
-    provider: openAiKey ? 'openai' : 'none',
-  }, {
-    status: 200,
-    headers: {
-      'Cache-Control': 'no-store, max-age=0',
-      'Content-Type': 'application/json',
-    },
-  });
+    configured: availability.state === 'open',
+    provider: providerConfig()?.provider ?? 'none',
+    metering: availability.rates ? 'per-token' : 'not-configured',
+  }, { headers: { 'Cache-Control': 'no-store, max-age=0' } });
 }

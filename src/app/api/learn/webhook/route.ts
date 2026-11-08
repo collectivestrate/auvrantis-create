@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { isObject } from '@/lib/cloud/server';
-import { isPlan, saveSubscription, stripe, stripeConfig, verifyStripeSignature } from '@/lib/learn-access';
+import { isPlan, saveSubscription, stripe, stripeBase, verifyStripeSignature } from '@/lib/learn-access';
+import { MC_PER_CREDIT, packById } from '@/lib/ai-billing';
+import { credit } from '@/lib/ai-wallet';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,8 +24,20 @@ async function saveFromSubscription(sub: Record<string, unknown>, deleted = fals
   });
 }
 
+/** Adds credits for a paid AI credit-pack checkout. The pack size comes from our own table, not from metadata. */
+async function creditFromSession(session: Record<string, unknown>) {
+  const meta: Record<string, unknown> = isObject(session.metadata) ? session.metadata : {};
+  const userId = text(meta.user_id);
+  const pack = packById(meta.pack);
+  const sessionId = text(session.id);
+  if (!userId || !UUID.test(userId) || !pack || !sessionId) return;
+  if (session.payment_status !== 'paid') return; // async methods finish in a later event
+  if (session.amount_total !== Math.round(pack.usd * 100)) return; // paid amount must match the pack
+  await credit(userId, sessionId, pack.credits * MC_PER_CREDIT);
+}
+
 export async function POST(req: Request) {
-  const c = stripeConfig();
+  const c = stripeBase();
   if (!c) return NextResponse.json({ error: 'Not configured.' }, { status: 503 });
   const raw = await req.text();
   if (raw.length > 500_000 || !verifyStripeSignature(raw, req.headers.get('stripe-signature'), c.webhook)) {
@@ -36,7 +50,10 @@ export async function POST(req: Request) {
   const object = event.data.object;
 
   try {
-    if (event.type === 'checkout.session.completed') {
+    const isCredits = isObject(object.metadata) && object.metadata.kind === 'ai_credits';
+    if (isCredits && (event.type === 'checkout.session.completed' || event.type === 'checkout.session.async_payment_succeeded')) {
+      await creditFromSession(object);
+    } else if (event.type === 'checkout.session.completed') {
       // Read the subscription itself so the saved status is Stripe's real status.
       const subId = text(object.subscription);
       if (subId) {
