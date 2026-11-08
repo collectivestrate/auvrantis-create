@@ -1,11 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import BuildDemo, { DEMO_USAGE } from '@/components/build-demo';
+import BuildDemo from '@/components/build-demo';
 import CodeLab from '@/components/code-lab';
 import CostCalculator from '@/components/cost-calculator';
 import { MkFooter, MkNav } from '@/components/mk-chrome';
 import { ACTIONS, CREDIT_PACKS, formatCredits, priceMc, quote, ratesFromEnv, signupCredits, type AiAction } from '@/lib/ai-billing';
 import { creditsCheckoutOpen } from '@/lib/learn-access';
+import { DEMO_USAGE } from '@/lib/demo-usage';
 import { marketingDesigns } from '@/lib/marketing-designs';
 import './home.css';
 

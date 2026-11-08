@@ -5,6 +5,7 @@
 // plays once, and shows the finished state straight away for reduced-motion visitors.
 
 import { useEffect, useRef, useState } from 'react';
+import { DEMO_USAGE } from '@/lib/demo-usage';
 
 const PROMPT = 'A family bakery in Pilsen, Chicago. Conchas, sourdough and Saturday baking classes.';
 const SECTIONS = [
@@ -13,7 +14,6 @@ const SECTIONS = [
   { label: 'Classes', title: 'Shape your own conchas.', body: 'Saturday mornings, small groups, flour on us.' },
   { label: 'Visit', title: 'Come say hello.', body: '[your address] · [your hours]' },
 ];
-export const DEMO_USAGE = { inputTokens: 1486, outputTokens: 912 };
 
 type Phase = 'typing' | 'building' | 'done';
 
